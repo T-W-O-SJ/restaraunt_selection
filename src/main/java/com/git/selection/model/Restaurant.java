@@ -23,8 +23,9 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(max = 100)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+
+    public Restaurant() {
+    }
 
     public Restaurant( Restaurant r) {
       this(r.id,r.name,r.description,r.address,r.phone);
@@ -36,6 +37,8 @@ public class Restaurant extends AbstractNamedEntity {
         this.address = address;
         this.phone = phone;
     }
+
+
 
     public String getDescription() {
         return description;
@@ -67,7 +70,6 @@ public class Restaurant extends AbstractNamedEntity {
                 "description='" + description + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", user=" + user +
                 ", name='" + name + '\'' +
                 ", id=" + id +
                 '}';

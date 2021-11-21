@@ -1,6 +1,7 @@
 package com.git.selection.repository;
 
 import com.git.selection.model.User;
+import com.git.selection.model.Vote;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public interface UserRepository {
 
     // null if not found
     User getByEmail(String email);
+
+    // null if not found
+    void voteForRestaurant (Vote vote,int id);
 
     List<User> getAll();
 }

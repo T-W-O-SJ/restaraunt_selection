@@ -1,5 +1,9 @@
 package com.git.selection.model;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -7,10 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
@@ -47,8 +48,16 @@ public class User extends AbstractNamedEntity {
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
     @Column(name = "role")
+    @BatchSize(size = 200)
     @ElementCollection(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
+
+    @NotNull
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "user" )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OrderBy("dateTime desc ")
+    private List<Vote> votes;
 
     public User() {
     }
