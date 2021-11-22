@@ -5,6 +5,7 @@ import com.git.selection.repository.DishRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -31,6 +32,11 @@ public class DataJpaDishRepository implements DishRepository {
     @Override
     public boolean delete(int id, int userId) {
         return crudDishRepository.delete(id, userId) != 0;
+    }
+
+    @Override
+    public List<Dish> getAllByDate(LocalDate localDate, int restaurantId) {
+        return crudDishRepository.getAllByLocalDateAndId(localDate,restaurantId);
     }
 
     @Override

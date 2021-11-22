@@ -3,6 +3,7 @@ package com.git.selection.repository;
 import com.git.selection.model.Dish;
 import com.git.selection.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DishRepository {
@@ -16,4 +17,6 @@ public interface DishRepository {
     Dish get(int id,int restaurantId);
 
     List<Dish> getAll(int restaurantId);
+
+    List<Dish> getAllByDate(LocalDate localDate,int restaurantId);
 }
