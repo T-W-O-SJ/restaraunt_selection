@@ -19,7 +19,7 @@ public interface UserRepository {
     User getByEmail(String email);
 
     // null if not found
-    void voteForRestaurant (Vote vote,int id);
+    Vote voteForRestaurant (Vote vote,int userId,int restId);
 
     List<User> getAll();
 }

@@ -14,24 +14,25 @@ public abstract class AbstractJpaMenuController {
     @Autowired
     private DataJpaDishRepository dishRepository;
 
-    Dish save(Dish dish, int restaurantId){
+    Dish save(Dish dish, int restaurantId) {
         return null;
     }
 
     // false if not found
-    boolean delete(int id, int restaurantId){
-        return  false;
+    boolean delete(int id, int restaurantId) {
+        return false;
     }
 
     // null if not found
-    Dish get(int id,int restaurantId){
-        return  null;
-    }
-
-    List<Dish> getAll(int restaurantId){
+    Dish get(int id, int restaurantId) {
         return null;
     }
-    List<Dish> getAllByDate(int restaurantId){
+
+    List<Dish> getAll(int restaurantId) {
+        return null;
+    }
+
+    List<Dish> getAllByDate(int restaurantId) {
         return null;
     }
 }
