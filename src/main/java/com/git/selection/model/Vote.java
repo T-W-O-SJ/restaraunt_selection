@@ -5,15 +5,14 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "votes_unique_user_datetime_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_user_date_idx")})
 public class Vote extends AbstractBaseEntity{
 
     @Column(name = "date_time", nullable = false)
-    @NotNull
-    private LocalDateTime dateTime;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -27,14 +26,14 @@ public class Vote extends AbstractBaseEntity{
     @NotNull
     private User user;
 
-    public Vote(LocalDateTime dateTime, Restaurant restaurant ){
-        this.dateTime = dateTime;
+    public Vote(LocalDate dateTime, Restaurant restaurant ){
+        this.date = dateTime;
         this.restaurant = restaurant;
     }
 
-    public Vote(Integer id, LocalDateTime dateTime, Restaurant restaurant) {
+    public Vote(Integer id, LocalDate dateTime, Restaurant restaurant) {
         super(id);
-        this.dateTime = dateTime;
+        this.date = dateTime;
         this.restaurant = restaurant;
     }
 
@@ -42,12 +41,12 @@ public class Vote extends AbstractBaseEntity{
 
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate dateTime) {
+        this.date = dateTime;
     }
 
     public Restaurant getRestaurant() {

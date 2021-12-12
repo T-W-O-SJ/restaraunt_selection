@@ -56,7 +56,7 @@ public class User extends AbstractNamedEntity {
     @NotNull
     @OneToMany(fetch = FetchType.LAZY ,mappedBy = "user" )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OrderBy("dateTime desc ")
+    @OrderBy("date desc ")
     private List<Vote> votes;
 
     public User() {

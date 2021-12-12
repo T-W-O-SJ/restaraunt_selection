@@ -4,5 +4,5 @@
 
     <import resource="spring-cache.xml"/>
 
-    <context:component-scan base-package="ru.javawebinar.**.web"/>
+    <context:component-scan base-package="com.git.**.web"/>
 </beans>

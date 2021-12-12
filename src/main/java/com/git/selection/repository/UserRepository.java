@@ -18,8 +18,5 @@ public interface UserRepository {
     // null if not found
     User getByEmail(String email);
 
-    // null if not found
-    Vote voteForRestaurant (Vote vote,int userId,int restId);
-
     List<User> getAll();
 }

@@ -16,12 +16,10 @@ public class DataJpaUserRepository implements UserRepository {
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     private final CrudUserRepository crudRepository;
-    private final CrudVoteRepository crudVoteRepository;
     private final CrudRestaurantRepository crudRestRepository;
 
-    public DataJpaUserRepository(CrudUserRepository crudRepository, CrudVoteRepository crudVoteRepository, CrudRestaurantRepository crudRestRepository) {
+    public DataJpaUserRepository(CrudUserRepository crudRepository, CrudRestaurantRepository crudRestRepository) {
         this.crudRepository = crudRepository;
-        this.crudVoteRepository = crudVoteRepository;
         this.crudRestRepository = crudRestRepository;
     }
 
@@ -42,17 +40,6 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
-    public Vote voteForRestaurant(Vote vote, int userId,int restId) {
-        if (!vote.isNew() && crudVoteRepository.findById(vote.id()).orElse(null) == null) {
-            return null;
-        }
-        vote.setUser(crudRepository.getById(userId));
-        vote.setRestaurant(crudRestRepository.getById(restId));
-        return crudVoteRepository.save(vote);
-
-    }
-
-    @Override
     public User getByEmail(String email) {
         return crudRepository.getByEmail(email);
     }
@@ -62,7 +49,6 @@ public class DataJpaUserRepository implements UserRepository {
         return crudRepository.findAll(SORT_NAME_EMAIL);
     }
 
-    public interface CrudVoteRepository extends JpaRepository<Vote,Integer> {
-    }
+
 
 }

@@ -1,15 +1,27 @@
 package com.git.selection.repository.datajpa;
 
 import com.git.selection.model.Restaurant;
+import com.git.selection.model.Vote;
 import com.git.selection.repository.RestaurantRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class DataJpaRestaurantRepository implements RestaurantRepository{
    private static final Sort SORT_BY_NAME = Sort.by("name");
-    CrudRestaurantRepository repository;
+
+    private final CrudUserRepository userRepository;
+    private final CrudRestaurantRepository repository;
+
+
+    public DataJpaRestaurantRepository(CrudUserRepository userRepository, CrudRestaurantRepository repository, CrudVoteRepository voteRepository) {
+        this.userRepository = userRepository;
+        this.repository = repository;
+
+    }
 
     @Transactional
     @Override
@@ -37,4 +49,6 @@ public class DataJpaRestaurantRepository implements RestaurantRepository{
     public List<Restaurant> getAll() {
         return repository.findAll(SORT_BY_NAME);
     }
+
+
 }
