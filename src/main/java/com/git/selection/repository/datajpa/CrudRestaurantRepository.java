@@ -1,6 +1,7 @@
 package com.git.selection.repository.datajpa;
 
 import com.git.selection.model.Restaurant;
+import com.git.selection.model.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,5 +21,9 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @EntityGraph(attributePaths = {"restaurants", "dishes"})
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithDishes(int restaurantId);
+
+    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
+    User getWithVotes(int id) ;
 
 }

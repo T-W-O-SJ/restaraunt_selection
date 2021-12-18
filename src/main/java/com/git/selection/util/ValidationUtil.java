@@ -3,11 +3,15 @@ package com.git.selection.util;
 
 import com.git.selection.HasId;
 import com.git.selection.util.exception.NotFoundException;
+import com.git.selection.util.exception.NotValidTimeException;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
 import javax.validation.*;
+import java.time.LocalDateTime;
 import java.util.Set;
+
+import static com.git.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
 
 public class ValidationUtil {
 
@@ -66,10 +70,17 @@ public class ValidationUtil {
         }
     }
 
+    public static <T> T checkDateConsistent(T object, LocalDateTime dateTime) {
+        if (dateTime.toLocalTime().isAfter(FIX_CLOSE_TIME)) {
+            throw new NotValidTimeException();
+        } else return object;
+    }
+
     //  https://stackoverflow.com/a/65442410/548473
     @NonNull
     public static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
         return rootCause != null ? rootCause : t;
     }
+
 }

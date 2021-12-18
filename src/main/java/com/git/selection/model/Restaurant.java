@@ -1,8 +1,13 @@
 package com.git.selection.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -23,6 +28,11 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(max = 100)
     private String phone;
 
+    @NotNull
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "restaurant" )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OrderBy("date desc ")
+    private List<Vote> votes;
 
     public Restaurant() {
     }

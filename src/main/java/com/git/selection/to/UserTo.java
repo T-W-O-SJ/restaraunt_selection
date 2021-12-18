@@ -68,7 +68,7 @@ public class UserTo extends BaseTo implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", caloriesPerDay='" + caloriesPerDay + '\'' +
+                ", caloriesPerDay='" + '\'' +
                 '}';
     }
 }

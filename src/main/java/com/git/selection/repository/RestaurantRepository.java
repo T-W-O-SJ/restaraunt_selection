@@ -21,4 +21,6 @@ public interface RestaurantRepository {
     Restaurant getByEmail(String email);
 
     List<Restaurant> getAll();
+
+    Restaurant getWithVotes(int id);
 }

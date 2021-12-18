@@ -23,7 +23,6 @@ public class DataJpaUserRepository implements UserRepository {
         this.crudRestRepository = crudRestRepository;
     }
 
-
     @Override
     public User save(User user) {
         return crudRepository.save(user);
@@ -49,6 +48,9 @@ public class DataJpaUserRepository implements UserRepository {
         return crudRepository.findAll(SORT_NAME_EMAIL);
     }
 
-
+    @Override
+    public User getWithVotes(int id) {
+        return crudRepository.getWithVotes(id);
+    }
 
 }

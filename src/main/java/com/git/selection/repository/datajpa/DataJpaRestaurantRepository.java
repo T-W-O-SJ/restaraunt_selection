@@ -50,5 +50,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository{
         return repository.findAll(SORT_BY_NAME);
     }
 
-
+    @Override
+    public Restaurant getWithVotes(int id) {
+        return null;
+    }
 }
