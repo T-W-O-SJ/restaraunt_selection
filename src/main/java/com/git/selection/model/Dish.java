@@ -3,17 +3,14 @@ package com.git.selection.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
+@Table(name = "dishes")
 public class Dish extends AbstractBaseEntity {
 
     @Column(name = "description", nullable = false)
@@ -25,9 +22,9 @@ public class Dish extends AbstractBaseEntity {
     @NotNull
     private int price;
 
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "date", nullable = false)
     @NotNull
-    private LocalDateTime dateTime;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -38,17 +35,17 @@ public class Dish extends AbstractBaseEntity {
     public Dish() {
     }
 
-    public Dish(String description, int price, LocalDateTime dateTime) {
+    public Dish(String description, int price, LocalDate date) {
         this.description = description;
         this.price = price;
-        this.dateTime = dateTime;
+        this.date = date;
     }
 
-    public Dish(Integer id, String description, int price, LocalDateTime dateTime) {
+    public Dish(Integer id, String description, int price, LocalDate date) {
         super(id);
         this.description = description;
         this.price = price;
-        this.dateTime = dateTime;
+        this.date = date;
     }
 
     public String getDescription() {
@@ -59,16 +56,16 @@ public class Dish extends AbstractBaseEntity {
         return price;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDateTime dateTime) {
+        this.date = date;
     }
 
     public void setPrice(int price) {

@@ -1,11 +1,12 @@
 package com.git.selection.web.user;
 
 import com.git.selection.model.User;
-import com.git.selection.model.Vote;
 import com.git.selection.repository.datajpa.DataJpaUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -20,38 +21,47 @@ public abstract class AbstractUserController {
     private DataJpaUserRepository repository;
 
 
+    @Cacheable("users")
     public List<User> getAll() {
         log.info("getAll");
-        return  repository.getAll();
+        return repository.getAll();
     }
 
     public User get(int id) {
         log.info("get {}", id);
-        return checkNotFoundWithId(repository.get(id),id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
-        Assert.notNull(user,"not found");
+        Assert.notNull(user, "not found");
         return repository.save(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
-        checkNotFoundWithId(repository.delete(id),id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
-        Assert.notNull(user,"not found");
+        Assert.notNull(user, "not found");
         repository.save(user);
     }
 
     public User getByMail(String email) {
         log.info("getByEmail {}", email);
         return repository.getByEmail(email);
+    }
+
+    public User getWithVotes(int id) {
+        log.info("getWithVotes");
+        return checkNotFoundWithId(repository.getWithVotes(id), id);
     }
 
 }

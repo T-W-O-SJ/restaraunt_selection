@@ -3,6 +3,8 @@ package com.git.selection.web.restraunt;
 import com.git.selection.model.Restaurant;
 import com.git.selection.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -15,29 +17,33 @@ public class AbstractJpaRestaurantController {
     @Autowired
     RestaurantRepository repository;
 
-    Restaurant create(Restaurant restaurant) {
+    @CacheEvict(value = "restaurants",allEntries = true)
+   public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant,"must not be null");
         return repository.save(restaurant);
     }
 
-    Restaurant update(Restaurant restaurant) {
+    @CacheEvict(value = "restaurants",allEntries = true)
+    public Restaurant update(Restaurant restaurant) {
         Assert.notNull(restaurant,"must not be null");
         return checkNotFoundWithId(repository.save(restaurant),restaurant.id());
     }
 
-    void delete(int id) {
+    @CacheEvict(value = "restaurants",allEntries = true)
+    public void delete(int id) {
         checkNotFoundWithId(repository.delete(id),id);
     }
 
-    Restaurant get(int id) {
+   public Restaurant get(int id) {
         return checkNotFoundWithId(repository.get(id),id);
     }
 
-    Restaurant getByEmail(String email) {
+   public Restaurant getByEmail(String email) {
         return checkNotFound(repository.getByEmail(email),"email not found");
     }
 
-    List<Restaurant> getAll() {
+    @Cacheable("restaurants")
+   public List<Restaurant> getAll() {
         return repository.getAll();
     }
 }

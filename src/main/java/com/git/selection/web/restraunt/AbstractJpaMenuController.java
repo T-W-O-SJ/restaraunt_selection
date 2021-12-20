@@ -18,12 +18,12 @@ public abstract class AbstractJpaMenuController {
     @Autowired
     private DataJpaDishRepository repository;
 
-    Dish create(Dish dish, int restaurantId) {
+   public Dish create(Dish dish, int restaurantId) {
         Assert.notNull(dish, "must not be null");
         return repository.save(dish, restaurantId);
     }
 
-    Dish update(Dish dish, int restaurantId) {
+   public Dish update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "must not be null");
         return checkNotFoundWithId(repository.save(dish, restaurantId), dish.id());
     }
@@ -32,15 +32,15 @@ public abstract class AbstractJpaMenuController {
         checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
 
-    Dish get(int id, int restaurantId) {
+   public Dish get(int id, int restaurantId) {
         return checkNotFoundWithId(repository.get(id,restaurantId),id);
     }
 
-    List<Dish> getAll(int restaurantId) {
+   public List<Dish> getAll(int restaurantId) {
         return repository.getAll(restaurantId);
     }
 
-    List<Dish> getAllByDate(LocalDate localDate, int restaurantId) {
+    public List<Dish> getAllByDate(LocalDate localDate, int restaurantId) {
         return repository.getAllByDate(localDate,restaurantId);
     }
 }
