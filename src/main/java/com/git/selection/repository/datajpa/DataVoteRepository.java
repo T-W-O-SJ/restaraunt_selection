@@ -37,6 +37,11 @@ public class DataVoteRepository implements VoteRepository {
     }
 
     @Override
+    public List<Vote> getBetweenDates(int userid, int restId, LocalDate startDate, LocalDate endDate) {
+     return  voteRepository.getBetweenDates(userid,restId,startDate,endDate);
+    }
+
+    @Override
     public List<Vote> getAll() {
         return voteRepository.findAll();
     }

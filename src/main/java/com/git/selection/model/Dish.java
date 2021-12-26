@@ -22,9 +22,9 @@ public class Dish extends AbstractBaseEntity {
     @NotNull
     private int price;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "local_date", nullable = false)
     @NotNull
-    private LocalDate date;
+    private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -38,14 +38,14 @@ public class Dish extends AbstractBaseEntity {
     public Dish(String description, int price, LocalDate date) {
         this.description = description;
         this.price = price;
-        this.date = date;
+        this.localDate = date;
     }
 
     public Dish(Integer id, String description, int price, LocalDate date) {
         super(id);
         this.description = description;
         this.price = price;
-        this.date = date;
+        this.localDate = date;
     }
 
     public String getDescription() {
@@ -56,16 +56,16 @@ public class Dish extends AbstractBaseEntity {
         return price;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setDate(LocalDateTime dateTime) {
-        this.date = date;
+    public void setLocalDate(LocalDateTime dateTime) {
+        this.localDate = localDate;
     }
 
     public void setPrice(int price) {

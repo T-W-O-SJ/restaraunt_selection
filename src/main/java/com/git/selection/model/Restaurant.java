@@ -31,7 +31,7 @@ public class Restaurant extends AbstractNamedEntity {
     @NotNull
     @OneToMany(fetch = FetchType.LAZY ,mappedBy = "restaurant" )
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OrderBy("date desc ")
+    @OrderBy("localDate desc ")
     private List<Vote> votes;
 
     public Restaurant() {

@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_user_date_idx")})
 public class Vote extends AbstractBaseEntity{
 
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
+    @Column(name = "local_date", nullable = false)
+    private LocalDate localDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -27,13 +27,13 @@ public class Vote extends AbstractBaseEntity{
     private User user;
 
     public Vote(LocalDate dateTime, Restaurant restaurant ){
-        this.date = dateTime;
+        this.localDate = dateTime;
         this.restaurant = restaurant;
     }
 
     public Vote(Integer id, LocalDate dateTime, Restaurant restaurant) {
         super(id);
-        this.date = dateTime;
+        this.localDate = dateTime;
         this.restaurant = restaurant;
     }
 
@@ -41,12 +41,12 @@ public class Vote extends AbstractBaseEntity{
 
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
-    public void setDate(LocalDate dateTime) {
-        this.date = dateTime;
+    public void setLocalDate(LocalDate dateTime) {
+        this.localDate = dateTime;
     }
 
     public Restaurant getRestaurant() {
