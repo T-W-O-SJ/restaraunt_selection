@@ -72,7 +72,7 @@ public class ValidationUtil {
 
     public static <T> T checkDateConsistent(T object, LocalDateTime dateTime) {
         if (dateTime.toLocalTime().isAfter(FIX_CLOSE_TIME)) {
-            throw new NotValidTimeException();
+            throw new NotValidTimeException("Vote closed");
         } else return object;
     }
 

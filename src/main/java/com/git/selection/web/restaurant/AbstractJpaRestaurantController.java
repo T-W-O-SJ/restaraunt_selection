@@ -1,4 +1,4 @@
-package com.git.selection.web.restraunt;
+package com.git.selection.web.restaurant;
 
 import com.git.selection.model.Restaurant;
 import com.git.selection.repository.RestaurantRepository;

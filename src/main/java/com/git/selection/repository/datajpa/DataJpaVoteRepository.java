@@ -9,20 +9,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public class DataVoteRepository implements VoteRepository {
+public class DataJpaVoteRepository implements VoteRepository {
 
     CrudVoteRepository voteRepository;
     CrudUserRepository userRepository;
     CrudRestaurantRepository restaurantRepository;
 
-    public DataVoteRepository(CrudVoteRepository voteRepository, CrudUserRepository userRepository, CrudRestaurantRepository restaurantRepository) {
+    public DataJpaVoteRepository(CrudVoteRepository voteRepository, CrudUserRepository userRepository, CrudRestaurantRepository restaurantRepository) {
         this.voteRepository = voteRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
     }
 @Transactional
     @Override
-    public Vote save(Vote vote, int userId, int restId, LocalDateTime dateTime) {
+    public Vote save(Vote vote, int userId, int restId) {
         if (!vote.isNew() && get(vote.id(),userId,restId) == null) {
             return null;
         }

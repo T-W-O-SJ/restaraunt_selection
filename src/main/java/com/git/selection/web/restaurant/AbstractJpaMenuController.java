@@ -1,4 +1,4 @@
-package com.git.selection.web.restraunt;
+package com.git.selection.web.restaurant;
 
 import com.git.selection.model.Dish;
 import com.git.selection.repository.datajpa.DataJpaDishRepository;
