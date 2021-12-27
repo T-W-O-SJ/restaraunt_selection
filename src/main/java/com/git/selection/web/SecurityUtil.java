@@ -1,7 +1,6 @@
 package com.git.selection.web;
 
 import com.git.selection.AuthorizedUser;
-import com.git.selection.model.AbstractBaseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

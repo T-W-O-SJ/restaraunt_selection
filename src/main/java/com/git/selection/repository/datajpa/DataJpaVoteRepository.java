@@ -15,6 +15,11 @@ public class DataJpaVoteRepository implements VoteRepository {
     CrudUserRepository userRepository;
     CrudRestaurantRepository restaurantRepository;
 
+    @Override
+    public Vote getTodayVote(int userId) {
+        return voteRepository.getVoteByDate(userId,LocalDate.now());
+    }
+
     public DataJpaVoteRepository(CrudVoteRepository voteRepository, CrudUserRepository userRepository, CrudRestaurantRepository restaurantRepository) {
         this.voteRepository = voteRepository;
         this.userRepository = userRepository;
@@ -23,7 +28,7 @@ public class DataJpaVoteRepository implements VoteRepository {
 @Transactional
     @Override
     public Vote save(Vote vote, int userId, int restId) {
-        if (!vote.isNew() && get(vote.id(),userId,restId) == null) {
+        if (!vote.isNew() && get(vote.id(),userId) == null) {
             return null;
         }
         vote.setUser(userRepository.getById(userId));
@@ -32,8 +37,8 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public Vote get(int userId, int restId, int voteId) {
-        return voteRepository.getVote(userId,restId,voteId);
+    public Vote get(int userId,int voteId) {
+        return voteRepository.getVote(userId,voteId);
     }
 
     @Override

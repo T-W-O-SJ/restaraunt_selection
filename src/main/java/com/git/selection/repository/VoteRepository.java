@@ -8,7 +8,9 @@ import java.util.List;
 public interface VoteRepository {
     Vote save(Vote vote, int userId, int restId);
 
-    Vote get(int userId, int restId, int voteId);
+    Vote get(int userId,int voteId);
+
+    Vote getTodayVote(int userId);
 
     List<Vote> getAll();
 
