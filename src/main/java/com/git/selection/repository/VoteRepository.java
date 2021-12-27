@@ -18,6 +18,6 @@ public interface VoteRepository {
 
     List<Vote> getAllByRestaurantId(int restId);
 
-    List<Vote> getBetweenDates(int userid, int restId, LocalDate startDate, LocalDate endDate);
+    List<Vote> getBetweenDates(int userid, LocalDate startDate, LocalDate endDate);
 
 }

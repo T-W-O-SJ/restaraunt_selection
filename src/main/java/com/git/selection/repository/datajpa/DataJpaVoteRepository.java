@@ -42,8 +42,8 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getBetweenDates(int userid, int restId, LocalDate startDate, LocalDate endDate) {
-     return  voteRepository.getBetweenDates(userid,restId,startDate,endDate);
+    public List<Vote> getBetweenDates(int userid, LocalDate startDate, LocalDate endDate) {
+     return  voteRepository.getBetweenDates(userid,startDate,endDate);
     }
 
     @Override

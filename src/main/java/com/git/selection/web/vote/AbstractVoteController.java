@@ -22,17 +22,17 @@ public abstract class AbstractVoteController {
     @Autowired
     private DataJpaVoteRepository voteRepository;
 
-    public Vote create(Vote vote, LocalDateTime dateTime) {
+    public Vote create(Vote vote) {
         int userId = SecurityUtil.authUserId();
         log.info("create {} for user {}", vote, userId);
-        return checkDateConsistent(voteRepository.save(vote, userId), dateTime);
+        return checkDateConsistent(voteRepository.save(vote, userId,vote.getRestaurant().id()), LocalDateTime.now());
     }
 
-    public Vote update(Vote vote, LocalDateTime dateTime) {
+    public Vote update(Vote vote) {
         int userId = SecurityUtil.authUserId();
         log.info("update {} for user {}", vote, userId);
         ;
-        return checkDateConsistent(voteRepository.save(vote, userId, restId), dateTime);
+        return checkDateConsistent(voteRepository.save(vote, userId, vote.getRestaurant().id()), LocalDateTime.now());
     }
 
     public Vote get(int voteId) {
@@ -45,12 +45,12 @@ public abstract class AbstractVoteController {
         return voteRepository.getTodayVote(userId);
     }
 
-    public List<Vote> getBetweenDates(int restId, @Nullable LocalDate startDate, @Nullable LocalDate endDate) {
+    public List<Vote> getBetweenDates( @Nullable LocalDate startDate, @Nullable LocalDate endDate) {
         int userId = SecurityUtil.authUserId();
-        return voteRepository.getBetweenDates(userId, restId, atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate));
+        return voteRepository.getBetweenDates(userId,atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate));
     }
 
-    public List<Vote> getAllVotes() {
+    public List<Vote> getAll() {
         return voteRepository.getAll();
     }
 

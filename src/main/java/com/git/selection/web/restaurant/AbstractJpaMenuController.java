@@ -23,9 +23,9 @@ public abstract class AbstractJpaMenuController {
         return repository.save(dish, restaurantId);
     }
 
-   public Dish update(Dish dish, int restaurantId) {
+   public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "must not be null");
-        return checkNotFoundWithId(repository.save(dish, restaurantId), dish.id());
+        checkNotFoundWithId(repository.save(dish, restaurantId), dish.id());
     }
 
     public void delete(int id, int restaurantId) {

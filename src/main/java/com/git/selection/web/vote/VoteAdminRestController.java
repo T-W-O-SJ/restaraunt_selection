@@ -11,8 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = VoteAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteAdminRestController extends AbstractVoteController {
-    static final String REST_URL = "/rest/admin/votes";
-
+    static final String REST_URL = "/admin/votes";
 
     @Override
     @GetMapping("/{id}")
@@ -20,11 +19,15 @@ public class VoteAdminRestController extends AbstractVoteController {
         return super.get(id);
     }
 
+    @Override
+    @GetMapping("/")
+    public List<Vote> getAll() {
+        return super.getAll();
+    }
+
     @GetMapping("/filter")
-    public List<Vote> getBetween(
-            @RequestParam int restaurantId,
-            @RequestParam @Nullable LocalDate startDate,
-            @RequestParam @Nullable LocalDate endDate){
-        return super.getBetweenDates(restaurantId,startDate, endDate);
+    public List<Vote> getAllByLocalDate(
+            @RequestParam @Nullable LocalDate localDate) {
+        return super.getAllByLocalDate(localDate);
     }
 }
