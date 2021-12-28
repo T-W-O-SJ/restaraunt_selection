@@ -38,6 +38,4 @@
     <bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"/>
     <bean class="springfox.documentation.swagger2.configuration.Swagger2JacksonModule"/>
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
-    <context:component-scan base-package="config"/>
-
 </beans>

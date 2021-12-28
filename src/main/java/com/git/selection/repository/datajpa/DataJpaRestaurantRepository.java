@@ -1,21 +1,17 @@
 package com.git.selection.repository.datajpa;
 
 import com.git.selection.model.Restaurant;
-import com.git.selection.model.Vote;
 import com.git.selection.repository.RestaurantRepository;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class DataJpaRestaurantRepository implements RestaurantRepository{
-   private static final Sort SORT_BY_NAME = Sort.by("name");
+public class DataJpaRestaurantRepository implements RestaurantRepository {
+    private static final Sort SORT_BY_NAME = Sort.by("name");
 
     private final CrudUserRepository userRepository;
     private final CrudRestaurantRepository repository;
-
 
     public DataJpaRestaurantRepository(CrudUserRepository userRepository, CrudRestaurantRepository repository, CrudVoteRepository voteRepository) {
         this.userRepository = userRepository;
@@ -32,7 +28,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository{
     @Transactional
     @Override
     public boolean delete(int id) {
-        return repository.delete(id)!=0;
+        return repository.delete(id) != 0;
     }
 
     @Override
@@ -41,8 +37,8 @@ public class DataJpaRestaurantRepository implements RestaurantRepository{
     }
 
     @Override
-    public Restaurant getByEmail(String email) {
-        return repository.getByEmail(email);
+    public Restaurant getWithDishes(int id) {
+        return getWithDishes(id);
     }
 
     @Override
@@ -52,6 +48,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository{
 
     @Override
     public Restaurant getWithVotes(int id) {
-        return null;
+        return repository.getWithVotes(id);
+    }
+
+    @Override
+    public List <Restaurant> getAllWithDishes() {
+        return repository.getAllWithDishes();
     }
 }

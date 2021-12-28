@@ -24,9 +24,9 @@ public class AbstractJpaRestaurantController {
     }
 
     @CacheEvict(value = "restaurants",allEntries = true)
-    public Restaurant update(Restaurant restaurant) {
+    public void update(Restaurant restaurant) {
         Assert.notNull(restaurant,"must not be null");
-        return checkNotFoundWithId(repository.save(restaurant),restaurant.id());
+        checkNotFoundWithId(repository.save(restaurant),restaurant.id());
     }
 
     @CacheEvict(value = "restaurants",allEntries = true)
@@ -38,12 +38,13 @@ public class AbstractJpaRestaurantController {
         return checkNotFoundWithId(repository.get(id),id);
     }
 
-   public Restaurant getByEmail(String email) {
-        return checkNotFound(repository.getByEmail(email),"email not found");
-    }
-
     @Cacheable("restaurants")
    public List<Restaurant> getAll() {
         return repository.getAll();
+    }
+
+    @Cacheable("restaurants")
+    public List<Restaurant> getAllWithDishes() {
+        return repository.getAllWithDishes();
     }
 }

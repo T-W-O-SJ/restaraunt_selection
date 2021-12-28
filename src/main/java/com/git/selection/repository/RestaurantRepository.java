@@ -1,10 +1,7 @@
 package com.git.selection.repository;
 
 import com.git.selection.model.Restaurant;
-import com.git.selection.model.User;
-import com.git.selection.model.Vote;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RestaurantRepository {
@@ -17,10 +14,11 @@ public interface RestaurantRepository {
     // null if not found
     Restaurant get(int id);
 
-    // null if not found
-    Restaurant getByEmail(String email);
-
     List<Restaurant> getAll();
 
     Restaurant getWithVotes(int id);
+
+    List<Restaurant> getAllWithDishes();
+
+    Restaurant getWithDishes(int id);
 }
