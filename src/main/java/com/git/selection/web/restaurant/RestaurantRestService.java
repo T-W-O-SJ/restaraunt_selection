@@ -1,6 +1,7 @@
 package com.git.selection.web.restaurant;
 
 import com.git.selection.model.Restaurant;
+import com.git.selection.service.RestaurantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +13,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestaurantRestController extends AbstractJpaRestaurantController {
+@RequestMapping(value = RestaurantRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantRestService extends RestaurantService {
     static final String REST_URL = "/admin/restaurants";
 
     @Override

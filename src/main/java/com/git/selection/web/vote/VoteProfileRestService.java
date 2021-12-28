@@ -1,6 +1,8 @@
 package com.git.selection.web.vote;
 
 import com.git.selection.model.Vote;
+import com.git.selection.service.VoteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -14,16 +16,19 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = VoteProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class VoteProfileRestController extends AbstractVoteController {
+@RequestMapping(value = VoteProfileRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class VoteProfileRestService  {
     static final String REST_URL = "/profile/vote";
+
+    @Autowired
+    VoteService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> vote(@Valid @RequestBody Vote vote) {
-        if (super.getTodayVote() != null) {
-            super.update(vote);
+        if (service.getTodayVote() != null) {
+            service.update(vote);
         }
-        Vote created = super.create(vote);
+        Vote created =service.create(vote);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -34,6 +39,6 @@ public class VoteProfileRestController extends AbstractVoteController {
     public List<Vote> getBetween(
             @RequestParam @Nullable LocalDate startDate,
             @RequestParam @Nullable LocalDate endDate) {
-        return super.getBetweenDates(startDate, endDate);
+        return service.getBetweenDates(startDate, endDate);
     }
 }

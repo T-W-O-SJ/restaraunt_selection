@@ -4,6 +4,7 @@ package com.git.selection.util;
 import com.git.selection.model.Role;
 import com.git.selection.model.User;
 import com.git.selection.to.UserTo;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserUtil {
 
@@ -21,6 +22,11 @@ public class UserUtil {
         user.setName(userTo.getName());
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPassword(userTo.getPassword());
+        return user;
+    }
+    public static User prepareToSave(User user, PasswordEncoder passwordEncoder) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
         return user;
     }
 }

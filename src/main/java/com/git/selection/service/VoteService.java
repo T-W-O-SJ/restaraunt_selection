@@ -1,4 +1,4 @@
-package com.git.selection.web.vote;
+package com.git.selection.service;
 
 import com.git.selection.model.Vote;
 import com.git.selection.repository.datajpa.DataJpaVoteRepository;
@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ import static com.git.selection.util.DateTimeUtil.atStartOfDayOrMin;
 import static com.git.selection.util.DateTimeUtil.atStartOfNextDayOrMax;
 import static com.git.selection.util.ValidationUtil.checkDateConsistent;
 
-public abstract class AbstractVoteController {
+@Service
+public abstract class VoteService {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
