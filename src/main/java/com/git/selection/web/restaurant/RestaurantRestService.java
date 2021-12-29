@@ -14,44 +14,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = RestaurantRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestaurantRestService extends RestaurantService {
+public class RestaurantRestService {
     static final String REST_URL = "/admin/restaurants";
 
-    @Override
+    RestaurantService service;
+
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable int id) {
-        return super.get(id);
+        return service.get(id);
     }
 
-    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        super.delete(id);
+        service.delete(id);
     }
 
-    @Override
     @GetMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
-        return super.getAll();
+        return service.getAll();
     }
 
-    @Override
     @GetMapping(value = "/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAllWithDishes() {
-        return super.getAll();
+        return service.getAll();
     }
 
-    @Override
     @PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Restaurant restaurant) {
-        super.update(restaurant);
+        service.update(restaurant);
     }
 
     @PostMapping(value = "/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
-        Restaurant created = super.create(restaurant);
+        Restaurant created = service.create(restaurant);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

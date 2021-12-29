@@ -15,8 +15,11 @@ import static com.git.selection.util.ValidationUtil.checkNotFoundWithId;
 @Service
 public class RestaurantService {
 
-    @Autowired
     RestaurantRepository repository;
+    public RestaurantService(RestaurantRepository repository) {
+        this.repository = repository;
+    }
+
 
     @CacheEvict(value = "restaurants",allEntries = true)
    public Restaurant create(Restaurant restaurant) {

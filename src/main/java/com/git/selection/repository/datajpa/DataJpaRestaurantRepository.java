@@ -3,10 +3,12 @@ package com.git.selection.repository.datajpa;
 import com.git.selection.model.Restaurant;
 import com.git.selection.repository.RestaurantRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Repository
 public class DataJpaRestaurantRepository implements RestaurantRepository {
     private static final Sort SORT_BY_NAME = Sort.by("name");
 

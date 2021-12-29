@@ -1,6 +1,7 @@
 package com.git.selection.service;
 
 import com.git.selection.model.Vote;
+import com.git.selection.repository.VoteRepository;
 import com.git.selection.repository.datajpa.DataJpaVoteRepository;
 import com.git.selection.web.SecurityUtil;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ public abstract class VoteService {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
-    private DataJpaVoteRepository voteRepository;
+    private VoteRepository voteRepository;
 
     public Vote create(Vote vote) {
         int userId = SecurityUtil.authUserId();

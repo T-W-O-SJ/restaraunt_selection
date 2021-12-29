@@ -1,6 +1,9 @@
 package com.git.selection.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
@@ -10,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
 
@@ -32,6 +36,7 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(fetch = FetchType.LAZY ,mappedBy = "restaurant" )
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OrderBy("localDate desc ")
+    @JsonManagedReference
     private List<Vote> votes;
 
     public Restaurant() {

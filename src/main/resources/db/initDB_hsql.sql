@@ -31,7 +31,7 @@ CREATE TABLE user_roles
     user_id INTEGER NOT NULL,
     role    VARCHAR(255),
     CONSTRAINT user_roles_idx UNIQUE (user_id, role),
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
 CREATE TABLE dishes
@@ -54,4 +54,4 @@ CREATE TABLE votes
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX votes_unique_user_datetime_idx ON votes (user_id, local_date);
+CREATE UNIQUE INDEX votes_unique_user_date_idx ON votes (user_id, local_date);
