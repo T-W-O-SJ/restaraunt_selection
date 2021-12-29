@@ -21,16 +21,16 @@
     <springdoc.version>1.6.2</springdoc.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-<!-- JSON-->
+    <!-- JSON-->
     <jackson.version>2.13.0</jackson.version>
-
-    <tomcat.version>9.0.54</tomcat.version>
-
     <!-- Hibernate -->
     <hibernate.version>5.6.1.Final</hibernate.version>
     <!--Cache-->
     <ehcache.version>3.9.7</ehcache.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
   </properties>
 
     <!-- Spring -->

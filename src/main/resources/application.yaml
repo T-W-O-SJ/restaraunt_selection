@@ -15,12 +15,9 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
   datasource:
-    # ImMemory
-  spring.datasource.driver-class-name=org.hsqldb.jdbc.JDBCDriver
-  spring.datasource.url=jdbc:hsqldb:mem:selection;DB_CLOSE_DELAY=-1
-  spring.datasource.username=sa
-  spring.datasource.password=
-  spring.jpa.hibernate.ddl-auto=create
+    # ImMemory schema: classpath:db/init_hsqlDB.sql
+          url: jdbc:hsqldb:mem:selection
+          driverClassName: org.hsqldb.jdbc.JDBCDriver
 
 # Jackson Serialization Issue Resolver
   jackson.visibility:
@@ -29,34 +26,34 @@ spring:
     setter: none
     is-getter: none
 
-  spring:
-    jpa:
-      #optional - show SQL statements in console.
-      show-sql: true
-      properties:
-        javax:
-          persistence:
-            sharedCache:
-              #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
-              mode: ENABLE_SELECTIVE
-        hibernate:
-          #optional - enable SQL statements formatting.
-          format_sql: true
-          #optional - generate statistics to check if L2/query cache is actually being used.
-          generate_statistics: true
-          cache:
-            #required - turn on L2 cache.
-            use_second_level_cache: true
-            #optional - turn on query cache.
-            use_query_cache: true
-            region:
-              #required - classpath to cache region factory.
-              factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+#  spring:
+#    jpa:
+#      #optional - show SQL statements in console.
+#      show-sql: true
+#      properties:
+#        javax:
+#          persistence:
+#            sharedCache:
+#              #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+#              mode: ENABLE_SELECTIVE
+#        hibernate:
+#          #optional - enable SQL statements formatting.
+#          format_sql: true
+#          #optional - generate statistics to check if L2/query cache is actually being used.
+#          generate_statistics: true
+#          cache:
+#            #required - turn on L2 cache.
+#            use_second_level_cache: true
+#            #optional - turn on query cache.
+#            use_query_cache: true
+#            region:
+#              #required - classpath to cache region factory.
+#              factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
 logging:
   level:
     root: WARN
-    ru.javaops.topjava: DEBUG
+    com.git.selection: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 
 server.servlet:
