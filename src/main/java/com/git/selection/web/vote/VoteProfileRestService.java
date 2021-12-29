@@ -18,10 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = VoteProfileRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteProfileRestService  {
-    static final String REST_URL = "/profile/vote";
+    static final String REST_URL = "/profile/votes";
 
-    @Autowired
     VoteService service;
+    public VoteProfileRestService(VoteService service) {
+        this.service = service;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> vote(@Valid @RequestBody Vote vote) {

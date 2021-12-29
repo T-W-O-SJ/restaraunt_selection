@@ -1,4 +1,4 @@
-package com.git.selection.repository.datajpa;
+package com.git.selection.repository;
 
 import com.git.selection.model.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;

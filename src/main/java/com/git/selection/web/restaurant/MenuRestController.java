@@ -15,35 +15,35 @@ import java.util.List;
 @RestController
 @RequestMapping(value = MenuRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuRestController  {
-    static final String REST_URL = "/admin/restaurants";
+    static final String REST_URL = "/admin/dishes";
 
     DishService service;
 
 
-    @GetMapping("{restaurantId}/{id}")
+    @GetMapping("/{restaurantId}/{id}")
     public Dish get(@PathVariable int id,@PathVariable int restaurantId) {
         return service.get(id,restaurantId);
     }
 
-    @DeleteMapping("{restaurantId}/{id}")
+    @DeleteMapping("/{restaurantId}/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id,@PathVariable int restaurantId) {
        service.delete(id,restaurantId);
     }
 
 
-    @GetMapping(value = "/{restaurantId}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAll(int restaurantId) {
         return service.getAll(restaurantId);
     }
 
-    @PutMapping(value = "/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Dish dish, @PathVariable int id) {
         service.update(dish, id);
     }
 
-    @PostMapping(value = "/{id}/",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int id) {
         Dish created = service.create(dish,id);
 

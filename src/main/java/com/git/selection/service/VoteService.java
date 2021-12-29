@@ -2,11 +2,9 @@ package com.git.selection.service;
 
 import com.git.selection.model.Vote;
 import com.git.selection.repository.VoteRepository;
-import com.git.selection.repository.datajpa.DataJpaVoteRepository;
 import com.git.selection.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +16,21 @@ import static com.git.selection.util.DateTimeUtil.atStartOfDayOrMin;
 import static com.git.selection.util.DateTimeUtil.atStartOfNextDayOrMax;
 import static com.git.selection.util.ValidationUtil.checkDateConsistent;
 
-@Service
+@Service("VoteService")
 public abstract class VoteService {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private VoteRepository voteRepository;
+
+    private final VoteRepository voteRepository;
+
+    public VoteService(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
 
     public Vote create(Vote vote) {
         int userId = SecurityUtil.authUserId();
         log.info("create {} for user {}", vote, userId);
-        return checkDateConsistent(voteRepository.save(vote, userId,vote.getRestaurant().id()), LocalDateTime.now());
+        return checkDateConsistent(voteRepository.save(vote, userId, vote.getRestaurant().id()), LocalDateTime.now());
     }
 
     public Vote update(Vote vote) {
@@ -40,7 +42,7 @@ public abstract class VoteService {
 
     public Vote get(int voteId) {
         int userId = SecurityUtil.authUserId();
-        return voteRepository.get(userId,voteId);
+        return voteRepository.get(userId, voteId);
     }
 
     public Vote getTodayVote() {
@@ -48,9 +50,9 @@ public abstract class VoteService {
         return voteRepository.getTodayVote(userId);
     }
 
-    public List<Vote> getBetweenDates( @Nullable LocalDate startDate, @Nullable LocalDate endDate) {
+    public List<Vote> getBetweenDates(@Nullable LocalDate startDate, @Nullable LocalDate endDate) {
         int userId = SecurityUtil.authUserId();
-        return voteRepository.getBetweenDates(userId,atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate));
+        return voteRepository.getBetweenDates(userId, atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate));
     }
 
     public List<Vote> getAll() {

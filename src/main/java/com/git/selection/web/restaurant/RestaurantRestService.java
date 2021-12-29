@@ -46,7 +46,7 @@ public class RestaurantRestService {
         service.update(restaurant);
     }
 
-    @PostMapping(value = "/{id}/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = service.create(restaurant);
 

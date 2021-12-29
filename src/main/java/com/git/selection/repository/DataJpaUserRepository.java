@@ -1,10 +1,7 @@
-package com.git.selection.repository.datajpa;
+package com.git.selection.repository;
 
 import com.git.selection.model.User;
-import com.git.selection.model.Vote;
-import com.git.selection.repository.UserRepository;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 

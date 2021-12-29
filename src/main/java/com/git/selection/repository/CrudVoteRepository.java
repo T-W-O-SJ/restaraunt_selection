@@ -1,4 +1,4 @@
-package com.git.selection.repository.datajpa;
+package com.git.selection.repository;
 
 import com.git.selection.model.Dish;
 import com.git.selection.model.Vote;
@@ -23,8 +23,7 @@ public interface CrudVoteRepository extends JpaRepository<Vote,Integer> {
     @Query("SELECT v FROM Vote v WHERE v.localDate=:date")
     List<Vote> getAllByLocalDate(@Param("date") LocalDate date);
 
-    @Query("SELECT v from Vote v WHERE v.user.id=:userId" +
-            "AND v.localDate >= :startDate AND v.localDate < :endDate ORDER BY v.localDate DESC")
+    @Query("SELECT v from Vote v WHERE v.user.id=:userId AND v.localDate >= :startDate AND v.localDate < :endDate ORDER BY v.localDate DESC")
     List <Vote> getBetweenDates(@Param("userId")int userid,
                                 @Param("startDate") LocalDate startDate,
                                 @Param("endDate") LocalDate endDate);

@@ -3,6 +3,7 @@ package com.git.selection.web.vote;
 import com.git.selection.model.Vote;
 import com.git.selection.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,13 @@ import java.util.List;
 @RequestMapping(value = VoteAdminRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteAdminRestService  {
     static final String REST_URL = "/admin/votes";
-
-    @Autowired
+@Autowired
+@Qualifier("VoteService")
     VoteService service;
+
+    public VoteAdminRestService(VoteService service) {
+        this.service = service;
+    }
 
     @GetMapping("/{id}")
     public Vote get(@PathVariable  int id) {
