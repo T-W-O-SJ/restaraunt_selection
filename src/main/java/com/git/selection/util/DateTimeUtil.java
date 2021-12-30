@@ -1,5 +1,6 @@
 package com.git.selection.util;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
+@UtilityClass
 public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -16,9 +17,6 @@ public class DateTimeUtil {
     public static final LocalTime FIX_CLOSE_TIME = LocalTime.of(10,00);
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
     private static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
-
-    private DateTimeUtil() {
-    }
 
     public static LocalDate atStartOfDayOrMin(LocalDate localDate) {
         return localDate != null ? localDate : MIN_DATE;

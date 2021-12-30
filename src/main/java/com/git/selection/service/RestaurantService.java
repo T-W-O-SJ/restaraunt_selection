@@ -2,7 +2,6 @@ package com.git.selection.service;
 
 import com.git.selection.model.Restaurant;
 import com.git.selection.repository.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,8 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.git.selection.util.ValidationUtil.checkNotFound;
-import static com.git.selection.util.ValidationUtil.checkNotFoundWithId;
+import static com.git.selection.util.validation.ValidationUtil.checkNotFound;
+import static com.git.selection.util.validation.ValidationUtil.checkNotFoundWithId;
 @Service
 public class RestaurantService {
 

@@ -2,6 +2,7 @@ package com.git.selection.web.user;
 
 
 import com.git.selection.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
 public class AdminRestController extends AbstractUserController {
 
     static final String REST_URL = "/admin/users";
@@ -53,10 +55,10 @@ public class AdminRestController extends AbstractUserController {
         super.update(user, id);
     }
 
-    @Override
     @GetMapping("/by-email")
-    public User getByMail(@RequestParam String email) {
-        return super.getByMail(email);
+    public ResponseEntity<User> getByMail(@RequestParam String email) {
+        log.info("getByEmail {}", email);
+        return ResponseEntity.of(super.findByEmailIgnoreCase(email));
     }
 
 

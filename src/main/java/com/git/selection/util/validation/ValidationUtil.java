@@ -1,9 +1,10 @@
-package com.git.selection.util;
+package com.git.selection.util.validation;
 
 
 import com.git.selection.HasId;
-import com.git.selection.util.exception.NotFoundException;
-import com.git.selection.util.exception.NotValidTimeException;
+import com.git.selection.error.NotFoundException;
+import com.git.selection.error.NotValidTimeException;
+import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static com.git.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
-
+@UtilityClass
 public class ValidationUtil {
 
     private static final Validator validator;
@@ -22,9 +23,6 @@ public class ValidationUtil {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         //  From Javadoc: implementations of this interface must be thread-safe
         validator = factory.getValidator();
-    }
-
-    private ValidationUtil() {
     }
 
     public static <T> void validate(T bean) {

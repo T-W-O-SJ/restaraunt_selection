@@ -1,6 +1,9 @@
 package com.git.selection.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.Cache;
@@ -10,12 +13,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serial;
 import java.util.List;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name = "restaurants")
-public class Restaurant extends AbstractNamedEntity {
+@Getter
+@Setter
+@ToString(callSuper = true)
+public class Restaurant extends NamedEntity {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "description", nullable = false, unique = true)
     @NotBlank
@@ -53,40 +62,4 @@ public class Restaurant extends AbstractNamedEntity {
         this.phone = phone;
     }
 
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "description='" + description + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
 }

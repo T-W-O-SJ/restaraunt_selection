@@ -1,17 +1,25 @@
 package com.git.selection.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "local_date"}, name = "votes_unique_user_date_idx")})
-public class Vote extends AbstractBaseEntity{
-
+@Getter
+@Setter
+@ToString(callSuper = true)
+public class Vote extends BaseEntity {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Column(name = "local_date", nullable = false)
     private LocalDate localDate;
 
@@ -43,30 +51,5 @@ public class Vote extends AbstractBaseEntity{
     public Vote() {
 
     }
-
-    public LocalDate getLocalDate() {
-        return localDate;
-    }
-
-    public void setLocalDate(LocalDate dateTime) {
-        this.localDate = dateTime;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
 
 }

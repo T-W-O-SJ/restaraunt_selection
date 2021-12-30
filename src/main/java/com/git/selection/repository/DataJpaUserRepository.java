@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DataJpaUserRepository implements UserRepository {
@@ -36,8 +37,8 @@ public class DataJpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User getByEmail(String email) {
-        return crudRepository.getByEmail(email);
+    public Optional<User> findByEmailIgnoreCase(String email) {
+        return crudRepository.findByEmailIgnoreCase(email);
     }
 
     @Override

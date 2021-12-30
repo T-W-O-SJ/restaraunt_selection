@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.git.selection.util.ValidationUtil.assureIdConsistent;
-import static com.git.selection.util.ValidationUtil.checkNew;
+import static com.git.selection.util.validation.ValidationUtil.assureIdConsistent;
+import static com.git.selection.util.validation.ValidationUtil.checkNew;
 
 
 public abstract class AbstractUserController {
@@ -60,9 +61,9 @@ public abstract class AbstractUserController {
         service.update(userTo);
     }
 
-    public User getByMail(String email) {
+    public Optional<User> findByEmailIgnoreCase(String email) {
         log.info("getByEmail {}", email);
-        return service.getByEmail(email);
+        return service.findByEmailIgnoreCase(email);
     }
 
 

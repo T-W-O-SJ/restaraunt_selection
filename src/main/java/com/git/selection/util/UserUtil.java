@@ -4,8 +4,10 @@ package com.git.selection.util;
 import com.git.selection.model.Role;
 import com.git.selection.model.User;
 import com.git.selection.to.UserTo;
+import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@UtilityClass
 public class UserUtil {
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;

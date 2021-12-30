@@ -14,7 +14,7 @@ import java.util.List;
 
 import static com.git.selection.util.DateTimeUtil.atStartOfDayOrMin;
 import static com.git.selection.util.DateTimeUtil.atStartOfNextDayOrMax;
-import static com.git.selection.util.ValidationUtil.checkDateConsistent;
+import static com.git.selection.util.validation.ValidationUtil.checkDateConsistent;
 
 @Service("VoteService")
 public abstract class VoteService {
@@ -28,30 +28,30 @@ public abstract class VoteService {
     }
 
     public Vote create(Vote vote) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.authId();
         log.info("create {} for user {}", vote, userId);
         return checkDateConsistent(voteRepository.save(vote, userId, vote.getRestaurant().id()), LocalDateTime.now());
     }
 
     public Vote update(Vote vote) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.authId();
         log.info("update {} for user {}", vote, userId);
         ;
         return checkDateConsistent(voteRepository.save(vote, userId, vote.getRestaurant().id()), LocalDateTime.now());
     }
 
     public Vote get(int voteId) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.authId();
         return voteRepository.get(userId, voteId);
     }
 
     public Vote getTodayVote() {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.authId();
         return voteRepository.getTodayVote(userId);
     }
 
     public List<Vote> getBetweenDates(@Nullable LocalDate startDate, @Nullable LocalDate endDate) {
-        int userId = SecurityUtil.authUserId();
+        int userId = SecurityUtil.authId();
         return voteRepository.getBetweenDates(userId, atStartOfDayOrMin(startDate), atStartOfNextDayOrMax(endDate));
     }
 

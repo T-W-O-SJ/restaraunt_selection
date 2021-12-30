@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.QueryHint;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface CrudUserRepository extends JpaRepository<User, Integer> {
@@ -22,4 +23,7 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT u FROM User u WHERE u.id=?1")
     User getWithVotes(int id) ;
+
+    @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
+    Optional<User> findByEmailIgnoreCase(String email);
 }

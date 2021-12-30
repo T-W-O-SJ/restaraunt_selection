@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.git.selection.util.ValidationUtil.checkNotFoundWithId;
+import static com.git.selection.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class DishService {

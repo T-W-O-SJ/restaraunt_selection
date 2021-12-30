@@ -1,6 +1,6 @@
 package com.git.selection.service;
 
-import com.git.selection.AuthorizedUser;
+import com.git.selection.AuthUser;
 import com.git.selection.model.User;
 import com.git.selection.repository.UserRepository;
 import com.git.selection.to.UserTo;
@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.git.selection.util.UserUtil.prepareToSave;
-import static com.git.selection.util.ValidationUtil.*;
+import static com.git.selection.util.validation.ValidationUtil.*;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -53,9 +54,9 @@ public class UserService implements UserDetailsService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    public User getByEmail(String email) {
+    public    Optional<User> findByEmailIgnoreCase(String email){
         Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+        return checkNotFound(repository.findByEmailIgnoreCase(email), "email=" + email);
     }
 
     @Cacheable("users")
@@ -77,12 +78,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository.getByEmail(email.toLowerCase());
+    public AuthUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repository.findByEmailIgnoreCase(email).orElse(null);
         if (user == null) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
-        return new AuthorizedUser(user);
+        return new AuthUser(user);
     }
 
     private User prepareAndSave(User user) {

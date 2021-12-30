@@ -4,6 +4,7 @@ import com.git.selection.model.User;
 import com.git.selection.model.Vote;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
     // null if not found, when updated
@@ -15,10 +16,9 @@ public interface UserRepository {
     // null if not found
     User get(int id);
 
-    // null if not found
-    User getByEmail(String email);
-
     List<User> getAll();
 
    User getWithVotes(int id) ;
+
+    Optional<User> findByEmailIgnoreCase(String email);
 }
