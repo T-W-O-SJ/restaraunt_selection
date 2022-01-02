@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.QueryHint;
 import java.util.Optional;
 
+import static com.git.selection.util.validation.ValidationUtil.checkModification;
+
 @Transactional(readOnly = true)
 public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Transactional
@@ -26,4 +28,10 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     Optional<User> findByEmailIgnoreCase(String email);
+
+    default void deleteExisted(int id) {
+        checkModification(delete(id), id);
+    }
+
+
 }

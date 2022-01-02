@@ -4,9 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CaloriesManagementRestApplication {
+public class RestaurantSelectionRestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CaloriesManagementRestApplication.class, args);
+        SpringApplication.run(RestaurantSelectionRestApplication.class, args);
     }
+
+    //TODO  make H2 server and refactor Repository Service RestControllers
+
 }

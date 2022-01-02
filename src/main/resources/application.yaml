@@ -15,9 +15,19 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
   datasource:
-    # ImMemory schema: classpath:db/init_hsqlDB.sql
-          url: jdbc:hsqldb:mem:selection
-          driverClassName: org.hsqldb.jdbc.JDBCDriver
+    # ImMemory
+    url: jdbc:h2:mem:selection
+    #    tcp: jdbc:h2:tcp://localhost:9092/mem:selection
+    # Absolute path
+    #    url: jdbc:h2:C:/projects/bootjava/db/selection
+    #    tcp: jdbc:h2:tcp://localhost:9092/C:/projects/bootjava/db/selection
+    # Relative path form current dir
+    #    url: jdbc:h2:./db/selection
+    # Relative path from home
+    #    url: jdbc:h2:~/selection
+    #    tcp: jdbc:h2:tcp://localhost:9092/~/selection
+    username: sa
+    password:
 
 # Jackson Serialization Issue Resolver
   jackson.visibility:
@@ -26,29 +36,29 @@ spring:
     setter: none
     is-getter: none
 
-#  spring:
-#    jpa:
-#      #optional - show SQL statements in console.
-#      show-sql: true
-#      properties:
-#        javax:
-#          persistence:
-#            sharedCache:
-#              #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
-#              mode: ENABLE_SELECTIVE
-#        hibernate:
-#          #optional - enable SQL statements formatting.
-#          format_sql: true
-#          #optional - generate statistics to check if L2/query cache is actually being used.
-#          generate_statistics: true
-#          cache:
-#            #required - turn on L2 cache.
-#            use_second_level_cache: true
-#            #optional - turn on query cache.
-#            use_query_cache: true
-#            region:
-#              #required - classpath to cache region factory.
-#              factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+  spring:
+    jpa:
+      #optional - show SQL statements in console.
+      show-sql: true
+      properties:
+        javax:
+          persistence:
+            sharedCache:
+              #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+              mode: ENABLE_SELECTIVE
+        hibernate:
+          #optional - enable SQL statements formatting.
+          format_sql: true
+          #optional - generate statistics to check if L2/query cache is actually being used.
+          generate_statistics: true
+          cache:
+            #required - turn on L2 cache.
+            use_second_level_cache: true
+            #optional - turn on query cache.
+            use_query_cache: true
+            region:
+              #required - classpath to cache region factory.
+              factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
 logging:
   level:

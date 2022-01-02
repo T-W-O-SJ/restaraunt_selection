@@ -1,6 +1,7 @@
-package ru.javaops.topjava.config;
+package com.git.selection.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.git.selection.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.javaops.topjava.model.Role;
-import ru.javaops.topjava.model.User;
-import ru.javaops.topjava.repository.UserRepository;
-import ru.javaops.topjava.util.JsonUtil;
-import ru.javaops.topjava.web.AuthUser;
+import com.git.selection.model.Role;
+import com.git.selection.model.User;
+import com.git.selection.repository.UserRepository;
+import com.git.selection.util.JsonUtil;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static ru.javaops.topjava.util.UserUtil.PASSWORD_ENCODER;
+import static com.git.selection.util.UserUtil.PASSWORD_ENCODER;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.userDetailsServiceBean();
     }
 
+
+
     @Override
     protected UserDetailsService userDetailsService() {
         return email -> {
@@ -63,9 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
-                .antMatchers(HttpMethod.POST, "/api/profile").anonymous()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/profile").anonymous()
+                .antMatchers("/**").authenticated()
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();

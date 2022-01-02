@@ -1,4 +1,4 @@
-package com.git.selection;
+package com.git.selection.web;
 
 
 import com.git.selection.model.User;

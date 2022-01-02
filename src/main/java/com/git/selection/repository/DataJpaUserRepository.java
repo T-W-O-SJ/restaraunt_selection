@@ -26,9 +26,8 @@ public class DataJpaUserRepository implements UserRepository {
         return crudRepository.save(user);
     }
 
-    @Override
-    public boolean delete(int id) {
-        return crudRepository.delete(id) != 0;
+    public void deleteExisted(int id) {
+    crudRepository.deleteExisted(id);
     }
 
     @Override

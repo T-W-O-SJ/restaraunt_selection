@@ -16,8 +16,8 @@ import static com.git.selection.util.DateTimeUtil.atStartOfDayOrMin;
 import static com.git.selection.util.DateTimeUtil.atStartOfNextDayOrMax;
 import static com.git.selection.util.validation.ValidationUtil.checkDateConsistent;
 
-@Service("VoteService")
-public abstract class VoteService {
+@Service
+public class VoteService {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 

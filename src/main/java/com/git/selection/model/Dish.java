@@ -1,5 +1,6 @@
 package com.git.selection.model;
 
+import com.git.selection.util.validation.NoHtml;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,6 +26,7 @@ public class Dish extends BaseEntity {
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
+    @NoHtml
     private String description;
 
     @Column(name = "price", nullable = false)

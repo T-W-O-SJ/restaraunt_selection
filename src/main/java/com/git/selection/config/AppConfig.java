@@ -1,4 +1,4 @@
-package ru.javaops.topjava.config;
+package com.git.selection.config;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
@@ -7,8 +7,9 @@ import org.h2.tools.Server;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
+
+import java.io.IOException;
 import java.sql.SQLException;
 
 @Configuration
@@ -17,7 +18,23 @@ import java.sql.SQLException;
 // TODO: cache only most requested data!
 public class AppConfig {
 
-    @Profile("!test")
+//    @Bean(initMethod = "start", destroyMethod = "stop")
+//    public Server hsqlServer() throws IOException, AclFormatException {
+//        Server bean = new Server();
+//        return bean;
+//    }
+//    @Bean
+//    @DependsOn("hsqlServer") // This is important!!
+//    public DataSource getDataSource(
+//            @Autowired DataSourceProperties dsProps) {
+//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+//        dataSourceBuilder.driverClassName(dsProps.getDriverClassName());
+//        dataSourceBuilder.url(dsProps.getUrl());
+//        dataSourceBuilder.username(dsProps.getUsername());
+//        dataSourceBuilder.password(dsProps.getPassword());
+//        return dataSourceBuilder.build();
+//    }
+
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {
         log.info("Start H2 TCP server");

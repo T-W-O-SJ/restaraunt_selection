@@ -15,8 +15,7 @@ import java.util.List;
 @RequestMapping(value = VoteAdminRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteAdminRestService  {
     static final String REST_URL = "/admin/votes";
-@Autowired
-@Qualifier("VoteService")
+
     VoteService service;
 
     public VoteAdminRestService(VoteService service) {

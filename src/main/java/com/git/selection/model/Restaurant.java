@@ -1,6 +1,7 @@
 package com.git.selection.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.git.selection.util.validation.NoHtml;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,15 +27,10 @@ public class Restaurant extends NamedEntity {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "description", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     @NotBlank
     @Size(max = 100)
-    private String description;
-
-    @Column(name = "address", nullable = false, unique = true)
-    @NotBlank
-    @Size(max = 100)
-    private String address;
+    private String email;
 
     @Column(name = "phone", nullable = false, unique = true)
     @NotBlank
@@ -52,13 +48,12 @@ public class Restaurant extends NamedEntity {
     }
 
     public Restaurant( Restaurant r) {
-      this(r.id,r.name,r.description,r.address,r.phone);
+      this(r.id,r.name,r.email,r.phone);
     }
 
-    public Restaurant(Integer id, String name, @NotBlank @Size(max = 100) String description, @NotBlank @Size(max = 100) String address, @NotBlank @Size(max = 100) String phone) {
+    public Restaurant(Integer id, String name, @NotBlank @Size(max = 100) String address, @NotBlank @Size(max = 100) String phone) {
         super(id, name);
-        this.description = description;
-        this.address = address;
+        this.email = address;
         this.phone = phone;
     }
 

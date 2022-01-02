@@ -2,6 +2,7 @@ package com.git.selection.util.validation;
 
 
 import com.git.selection.HasId;
+import com.git.selection.error.IllegalRequestDataException;
 import com.git.selection.error.NotFoundException;
 import com.git.selection.error.NotValidTimeException;
 import lombok.experimental.UtilityClass;
@@ -81,4 +82,10 @@ public class ValidationUtil {
         return rootCause != null ? rootCause : t;
     }
 
+    public static void checkModification(int count, int id) {
+        if (count == 0) {
+            throw new IllegalRequestDataException("Entity with id=" + id + " not found");
+        }
+
+    }
 }

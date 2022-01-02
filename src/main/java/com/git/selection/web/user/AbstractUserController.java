@@ -1,72 +1,42 @@
 package com.git.selection.web.user;
 
 import com.git.selection.model.User;
-import com.git.selection.service.UserService;
-import com.git.selection.to.UserTo;
+import com.git.selection.repository.UserRepository;
 import com.git.selection.util.UserUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 
-import java.util.List;
-import java.util.Optional;
-
-import static com.git.selection.util.validation.ValidationUtil.assureIdConsistent;
-import static com.git.selection.util.validation.ValidationUtil.checkNew;
-
-
+@Slf4j
 public abstract class AbstractUserController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserService service;
+    protected UserRepository repository;
 
-    public List<User> getAll() {
-        log.info("getAll");
-        return service.getAll();
+    @Autowired
+    private UniqueMailValidator emailValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(emailValidator);
     }
 
     public User get(int id) {
         log.info("get {}", id);
-        return service.get(id);
+        return repository.get(id);
     }
 
-    public User create(UserTo userTo) {
-        log.info("create {}", userTo);
-        checkNew(userTo);
-        return service.create(UserUtil.createNewFromTo(userTo));
-    }
-
-    public User create(User user) {
-        log.info("create {}", user);
-        checkNew(user);
-        return service.create(user);
-    }
-
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
-        service.delete(id);
+        repository.deleteExisted(id);
     }
 
-    public void update(User user, int id) {
-        log.info("update {} with id={}", user, id);
-        assureIdConsistent(user, id);
-        service.update(user);
+    protected User prepareAndSave(User user) {
+        return repository.save(UserUtil.prepareToSave(user));
     }
-
-    public void update(UserTo userTo, int id) {
-        log.info("update {} with id={}", userTo, id);
-        assureIdConsistent(userTo, id);
-        service.update(userTo);
-    }
-
-    public Optional<User> findByEmailIgnoreCase(String email) {
-        log.info("getByEmail {}", email);
-        return service.findByEmailIgnoreCase(email);
-    }
-
-
-
-
 }
