@@ -1,6 +1,10 @@
 package com.git.selection.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.git.selection.model.Role;
+import com.git.selection.model.User;
+import com.git.selection.repository.UserRepository;
+import com.git.selection.util.JsonUtil;
 import com.git.selection.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,12 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.git.selection.model.Role;
-import com.git.selection.model.User;
-import com.git.selection.repository.UserRepository;
-import com.git.selection.util.JsonUtil;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 

@@ -7,6 +7,7 @@ import org.h2.tools.Server;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 
 import java.io.IOException;
@@ -14,10 +15,11 @@ import java.sql.SQLException;
 
 @Configuration
 @Slf4j
-//@EnableCaching
+@EnableCaching
 // TODO: cache only most requested data!
 public class AppConfig {
-
+    
+    @Profile("!test")
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {
         log.info("Start H2 TCP server");

@@ -5,33 +5,26 @@
 
   <parent>
     <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-dependencies</artifactId>
+    <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.6.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <groupId>com.git</groupId>
   <artifactId>selection</artifactId>
-  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Lunch Selection</name>
+  <description>Migration project to Spring Boot</description>
 
   <properties>
     <java.version>17</java.version>
     <springdoc.version>1.6.2</springdoc.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <!-- JSON-->
-    <jackson.version>2.13.0</jackson.version>
-    <!--Cache-->
-    <ehcache.version>3.9.7</ehcache.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-    <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
-    <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
   </properties>
 
-    <!-- Spring -->
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -49,23 +42,14 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+
+    <!--        jackson-->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-cache</artifactId>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate5</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>org.jsoup</groupId>
-      <artifactId>jsoup</artifactId>
-      <version>1.14.3</version>
-    </dependency>
-
-<!--Swagger -->
+    <!--Swagger-->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
@@ -77,48 +61,48 @@
       <version>${springdoc.version}</version>
     </dependency>
 
-    <!--DataBase-->
+    <!--cache-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.ben-manes.caffeine</groupId>
+      <artifactId>caffeine</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
-
-    <!--        jackson-->
     <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-hibernate5</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.14.3</version>
     </dependency>
 
-<!--    &lt;!&ndash; Cache &ndash;&gt;-->
-<!--    <dependency>-->
-<!--      <groupId>org.hibernate</groupId>-->
-<!--      <artifactId>hibernate-jcache</artifactId>-->
-<!--      <version>${hibernate.version}</version>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.ehcache</groupId>-->
-<!--      <artifactId>ehcache</artifactId>-->
-<!--      <version>3.6.3</version>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
-
-
-  <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-  </dependency>
-  <dependency>
-    <groupId>org.springframework.security</groupId>
-    <artifactId>spring-security-test</artifactId>
-    <scope>test</scope>
-  </dependency>
-  <!--        https://youtrack.jetbrains.com/issue/IDEA-231927-->
-  <dependency>
-    <groupId>org.junit.platform</groupId>
-    <artifactId>junit-platform-launcher</artifactId>
-    <scope>test</scope>
-  </dependency>
+    <!--    https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.4-Release-Notes#junit-5s-vintage-engine-removed-from-spring-boot-starter-test-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!--        https://youtrack.jetbrains.com/issue/IDEA-231927-->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -145,4 +129,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
