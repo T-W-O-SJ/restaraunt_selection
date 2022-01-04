@@ -1,22 +1,21 @@
 package com.git.selection.repository;
 
 import com.git.selection.model.User;
-import com.git.selection.model.Vote;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
-    // null if not found, when updated
-    User save(User user);
-    void deleteExisted(int id);
 
-    // null if not found
-    User get(int id);
+@Transactional(readOnly = true)
+public interface UserRepository extends BaseRepository<User> {
 
-    List<User> getAll();
-
-   User getWithVotes(int id) ;
-
+    @Query("SELECT u FROM User u WHERE u.email = LOWER(:email)")
     Optional<User> findByEmailIgnoreCase(String email);
+
+    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT u FROM User u WHERE u.id=?1")
+    Optional<User> getWithVotes(int id);
+
 }

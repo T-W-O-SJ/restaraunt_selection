@@ -1,23 +1,36 @@
 package com.git.selection.repository;
 
+import com.git.selection.model.Dish;
 import com.git.selection.model.Vote;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-public interface VoteRepository {
-    Vote save(Vote vote, int userId, int restId);
+@Transactional
+public interface VoteRepository extends BaseRepository<Vote>{
 
-    Vote get(int userId,int voteId);
+    @Query("SELECT v FROM Vote v  WHERE v.user.id = ?1 and v.id =?2")
+    Optional<Vote> get(int userId , int voteId);
 
-    Vote getTodayVote(int userId);
+    @Query("SELECT v FROM Vote v  WHERE v.user.id = ?1 and v.localDate =?2")
+    Optional<Vote> getByDate(int userId , LocalDate localDate);
 
-    List<Vote> getAll();
+    @Query("SELECT v FROM Vote v WHERE v.restaurant.id=:restaurantId")
+    List<Vote> getAllForRestaurant(@Param("restaurantId") int restaurantId);
 
-    List<Vote> getAllByLocalDate(LocalDate date);
+    @Query("SELECT v FROM Vote v WHERE v.localDate=:date")
+    List<Vote> getAllByLocalDate(@Param("date") LocalDate date);
 
-    List<Vote> getAllByRestaurantId(int restId);
-
-    List<Vote> getBetweenDates(int userid, LocalDate startDate, LocalDate endDate);
+    @Query("SELECT v from Vote v WHERE v.user.id=:userId AND v.localDate >= :startDate AND v.localDate < :endDate ORDER BY v.localDate DESC")
+    List <Vote> getBetweenDates(@Param("userId")int userid,
+                                @Param("startDate") LocalDate startDate,
+                                @Param("endDate") LocalDate endDate);
 
 }
+
+

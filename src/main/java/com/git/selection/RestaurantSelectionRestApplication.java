@@ -10,6 +10,5 @@ public class RestaurantSelectionRestApplication {
         SpringApplication.run(RestaurantSelectionRestApplication.class, args);
     }
 
-    //TODO  make H2 server and refactor Repository Service RestControllers
 
 }

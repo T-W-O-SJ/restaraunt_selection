@@ -1,11 +1,14 @@
 package com.git.selection.web.vote;
 
+import com.git.selection.error.NotFoundException;
 import com.git.selection.model.Vote;
-import com.git.selection.service.VoteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.git.selection.repository.VoteRepository;
+import com.git.selection.web.AuthUser;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -13,29 +16,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = VoteAdminRestService.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class VoteAdminRestService  {
-    static final String REST_URL = "/admin/votes";
+@Slf4j
+@AllArgsConstructor
+public class VoteAdminRestService {
+    static final String REST_URL = "/api/admin/votes";
 
-    VoteService service;
+    VoteRepository voteRepository;
 
-    public VoteAdminRestService(VoteService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
-    public Vote get(@PathVariable  int id) {
-        return service.get(id);
+    public Vote get(@AuthenticationPrincipal AuthUser authUser, @PathVariable int id) {
+        int userId = authUser.id();
+        return voteRepository.get(userId, id).orElseThrow(() -> new NotFoundException("not found"));
     }
 
 
     @GetMapping("/")
     public List<Vote> getAll() {
-        return service.getAll();
+        return voteRepository.findAll();
     }
 
     @GetMapping("/filter")
     public List<Vote> getAllByLocalDate(
             @RequestParam @Nullable LocalDate localDate) {
-        return service.getAllByLocalDate(localDate);
+        return voteRepository.getAllByLocalDate(localDate);
     }
 }

@@ -18,6 +18,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static com.git.selection.util.validation.ValidationUtil.assureIdConsistent;
+import static com.git.selection.util.validation.ValidationUtil.checkNew;
 
 
 @RestController
@@ -31,10 +33,14 @@ public class AdminUserController extends AbstractUserController {
 
     @Override
     @GetMapping("/{id}")
-    public User get(@PathVariable int id) {
+    public ResponseEntity<User> get(@PathVariable int id) {
         return super.get(id);
     }
 
+    @GetMapping("/{id}/with-votes")
+    public ResponseEntity<User> getWithVotes(@PathVariable int id) {
+        return super.getWithVotes(id);
+    }
 
     @Override
     @DeleteMapping("/{id}")
@@ -47,13 +53,14 @@ public class AdminUserController extends AbstractUserController {
     @Cacheable
     public List<User> getAll() {
         log.info("getAll");
-        return repository.getAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
         log.info("create {}", user);
+        checkNew(user);
         User created = prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -66,6 +73,7 @@ public class AdminUserController extends AbstractUserController {
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
+        assureIdConsistent(user, id);
         prepareAndSave(user);
     }
 
@@ -81,7 +89,7 @@ public class AdminUserController extends AbstractUserController {
     @CacheEvict(allEntries = true)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
         log.info(enabled ? "enable {}" : "disable {}", id);
-        User user = repository.get(id);
+        User user = repository.getById(id);
         user.setEnabled(enabled);
     }
 }

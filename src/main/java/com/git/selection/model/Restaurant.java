@@ -18,8 +18,7 @@ import java.io.Serial;
 import java.util.List;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Table(name = "restaurants")
+@Table(name = "restaurant")
 @Getter
 @Setter
 @ToString(callSuper = true)
@@ -37,16 +36,22 @@ public class Restaurant extends NamedEntity {
     @Size(max = 100)
     private String phone;
 
-    @NotNull
     @OneToMany(fetch = FetchType.LAZY ,mappedBy = "restaurant" )
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OrderBy("localDate desc ")
     @JsonManagedReference
+    @ToString.Exclude
     private List<Vote> votes;
+
+    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "restaurant" )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OrderBy("localDate desc ")
+    @JsonManagedReference
+    @ToString.Exclude
+    private List<Vote> dishes;
 
     public Restaurant() {
     }
-
     public Restaurant( Restaurant r) {
       this(r.id,r.name,r.email,r.phone);
     }

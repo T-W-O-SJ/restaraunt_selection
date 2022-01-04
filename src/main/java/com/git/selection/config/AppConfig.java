@@ -14,26 +14,9 @@ import java.sql.SQLException;
 
 @Configuration
 @Slf4j
-@EnableCaching
+//@EnableCaching
 // TODO: cache only most requested data!
 public class AppConfig {
-
-//    @Bean(initMethod = "start", destroyMethod = "stop")
-//    public Server hsqlServer() throws IOException, AclFormatException {
-//        Server bean = new Server();
-//        return bean;
-//    }
-//    @Bean
-//    @DependsOn("hsqlServer") // This is important!!
-//    public DataSource getDataSource(
-//            @Autowired DataSourceProperties dsProps) {
-//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-//        dataSourceBuilder.driverClassName(dsProps.getDriverClassName());
-//        dataSourceBuilder.url(dsProps.getUrl());
-//        dataSourceBuilder.username(dsProps.getUsername());
-//        dataSourceBuilder.password(dsProps.getPassword());
-//        return dataSourceBuilder.build();
-//    }
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {

@@ -23,8 +23,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- JSON-->
     <jackson.version>2.13.0</jackson.version>
-    <!-- Hibernate -->
-    <hibernate.version>5.6.1.Final</hibernate.version>
     <!--Cache-->
     <ehcache.version>3.9.7</ehcache.version>
     <maven.compiler.source>17</maven.compiler.source>
@@ -54,11 +52,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-cache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -96,27 +89,19 @@
       <artifactId>jackson-datatype-hibernate5</artifactId>
     </dependency>
 
-    <!-- Cache -->
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-jcache</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-      <version>3.6.3</version>
-      <scope>runtime</scope>
-    </dependency>
+<!--    &lt;!&ndash; Cache &ndash;&gt;-->
+<!--    <dependency>-->
+<!--      <groupId>org.hibernate</groupId>-->
+<!--      <artifactId>hibernate-jcache</artifactId>-->
+<!--      <version>${hibernate.version}</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.ehcache</groupId>-->
+<!--      <artifactId>ehcache</artifactId>-->
+<!--      <version>3.6.3</version>-->
+<!--      <scope>runtime</scope>-->
+<!--    </dependency>-->
 
-    <!--Web-->
-    <dependency>
-      <groupId>org.apache.tomcat</groupId>
-      <artifactId>tomcat-servlet-api</artifactId>
-      <version>${tomcat.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!--Test-->
 
   <dependency>
     <groupId>org.springframework.boot</groupId>

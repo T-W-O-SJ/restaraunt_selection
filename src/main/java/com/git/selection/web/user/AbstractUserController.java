@@ -25,15 +25,20 @@ public abstract class AbstractUserController {
         binder.addValidators(emailValidator);
     }
 
-    public User get(int id) {
+    public ResponseEntity<User> get(int id) {
         log.info("get {}", id);
-        return repository.get(id);
+        return ResponseEntity.of(repository.findById(id));
     }
 
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete {}", id);
         repository.deleteExisted(id);
+    }
+
+    public ResponseEntity<User> getWithVotes(int id) {
+        log.info("getWithMeals {}", id);
+        return ResponseEntity.of(repository.getWithVotes(id));
     }
 
     protected User prepareAndSave(User user) {

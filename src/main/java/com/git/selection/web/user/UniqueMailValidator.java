@@ -1,14 +1,13 @@
 package com.git.selection.web.user;
 
-import com.git.selection.HasIdAndEmail;
-import com.git.selection.repository.UserRepository;
-import com.git.selection.web.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-
+import com.git.selection.HasIdAndEmail;
+import com.git.selection.repository.UserRepository;
+import com.git.selection.web.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
