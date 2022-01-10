@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-
 @Slf4j
 public abstract class AbstractUserController {
 
@@ -37,7 +36,7 @@ public abstract class AbstractUserController {
     }
 
     public ResponseEntity<User> getWithVotes(int id) {
-        log.info("getWithMeals {}", id);
+        log.info("getWithVotes {}", id);
         return ResponseEntity.of(repository.getWithVotes(id));
     }
 

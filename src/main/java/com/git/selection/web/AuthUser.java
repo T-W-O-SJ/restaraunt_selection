@@ -1,14 +1,9 @@
 package com.git.selection.web;
 
-
 import com.git.selection.model.User;
-import com.git.selection.to.UserTo;
-import com.git.selection.util.UserUtil;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-
-import java.io.Serial;
 
 @Getter
 @ToString(of = "user")

@@ -13,7 +13,7 @@
   <groupId>com.git</groupId>
   <artifactId>selection</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Lunch Selection</name>
+  <name>Restaurant Selection Api</name>
   <description>Migration project to Spring Boot</description>
 
   <properties>
@@ -21,8 +21,6 @@
     <springdoc.version>1.6.2</springdoc.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -129,5 +127,5 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
+

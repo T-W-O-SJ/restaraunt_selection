@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-
-import java.io.IOException;
 import java.sql.SQLException;
 
 @Configuration
@@ -18,15 +16,13 @@ import java.sql.SQLException;
 @EnableCaching
 // TODO: cache only most requested data!
 public class AppConfig {
-    
-    @Profile("!test")
+
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {
         log.info("Start H2 TCP server");
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 
-    //    https://stackoverflow.com/a/46947975/548473
     @Bean
     Module module() {
         return new Hibernate5Module();
