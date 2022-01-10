@@ -1,6 +1,5 @@
 package com.git.selection.util;
 
-
 import com.git.selection.model.Role;
 import com.git.selection.model.User;
 import com.git.selection.to.UserTo;

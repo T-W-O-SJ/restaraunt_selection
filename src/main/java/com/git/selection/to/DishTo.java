@@ -7,17 +7,15 @@ import java.time.LocalDate;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class VoteTo extends BaseTo {
-
-    Integer restaurantId;
+public class DishTo extends BaseTo {
+    String description;
+    int price;
     LocalDate localDate;
 
-
-    public VoteTo(Integer id, LocalDate localDate, Integer restaurantId) {
+    public DishTo(Integer id, LocalDate localDate, String description, int price) {
         super(id);
+        this.description = description;
+        this.price = price;
         this.localDate = localDate;
-        this.restaurantId = restaurantId;
-
     }
-
 }

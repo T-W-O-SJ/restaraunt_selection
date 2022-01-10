@@ -2,15 +2,13 @@ package com.git.selection.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.git.selection.HasIdAndEmail;
 import com.git.selection.util.validation.NoHtml;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 
@@ -20,15 +18,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
-
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends NamedEntity {
+public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -63,18 +61,18 @@ public class User extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @OneToMany(fetch = FetchType.LAZY ,mappedBy = "user" )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OrderBy("localDate desc ")
-    @JsonManagedReference
+    @JsonManagedReference("userToVotes")
     private List<Vote> votes;
 
     public User(User u) {
-        this(u.id, u.name, u.email, u.password,u.enabled, u.registered, u.roles);
+        this(u.id, u.name, u.email, u.password, u.enabled, u.registered, u.roles);
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id, name, email, password,true, new Date(), EnumSet.of(role, roles));
+        this(id, name, email, password, true, new Date(), EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, boolean enabled, Date registered, Collection<Role> roles) {

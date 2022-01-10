@@ -1,28 +1,23 @@
 package com.git.selection.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.git.selection.util.validation.NoHtml;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serial;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dish ")
+@Table(name = "dish")
 @Getter
 @Setter
-@ToString(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(callSuper = true, exclude = {"restaurant"})
 public class Dish extends BaseEntity {
-    @Serial
-    private static final long serialVersionUID = 1L;
+
     @Column(name = "description", nullable = false)
     @NotBlank
     @Size(min = 2, max = 120)
@@ -39,20 +34,10 @@ public class Dish extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @JsonBackReference("restaurantToDishes")
     private Restaurant restaurant;
 
-    public Dish() {
-    }
-
-    public Dish(String description, int price, LocalDate date) {
-        this.description = description;
-        this.price = price;
-        this.localDate = date;
-    }
-
-    public Dish(Integer id, String description, int price, LocalDate date) {
+    public Dish(Integer id, LocalDate date, String description, int price) {
         super(id);
         this.description = description;
         this.price = price;

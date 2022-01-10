@@ -4,12 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serial;
 import java.time.LocalDate;
 
 @Entity
@@ -18,38 +14,31 @@ import java.time.LocalDate;
 @Setter
 @ToString(callSuper = true)
 public class Vote extends BaseEntity {
-    @Serial
-    private static final long serialVersionUID = 1L;
+
     @Column(name = "local_date", nullable = false)
     private LocalDate localDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    @JsonBackReference
+    @JsonBackReference("restaurantToVotes")
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
-    @JsonBackReference
+    @JsonBackReference("userToVotes")
     private User user;
 
-    public Vote(LocalDate dateTime, Restaurant restaurant ){
-        this.localDate = dateTime;
+    public Vote(Integer id, LocalDate localDate, Restaurant restaurant) {
+        super(id);
+        this.localDate = localDate;
         this.restaurant = restaurant;
     }
 
-    public Vote(Integer id, LocalDate dateTime, Restaurant restaurant) {
+    public Vote(Integer id, LocalDate localDate) {
         super(id);
-        this.localDate = dateTime;
-        this.restaurant = restaurant;
+        this.localDate = localDate;
     }
 
     public Vote() {
-
     }
-
 }
