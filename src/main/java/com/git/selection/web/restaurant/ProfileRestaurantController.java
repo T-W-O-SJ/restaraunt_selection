@@ -30,12 +30,14 @@ public class ProfileRestaurantController {
     @GetMapping("/{id}")
     @Operation(summary = "Get restaurant")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
+        log.info("Get restaurant{} ",id);
         return ResponseEntity.of(repository.get(id));
     }
 
     @GetMapping("/{id}/with_dishes")
     @Operation(summary = "Get restaurant with its menu for today ")
     public ResponseEntity<Restaurant> getWithDishes(@PathVariable int id) {
+        log.info("Get restaurant{} with dishes today",id);
         return ResponseEntity.of(repository.getWithDishes(id));
     }
 
@@ -43,12 +45,14 @@ public class ProfileRestaurantController {
     @GetMapping()
     @Operation(summary = "Get all restaurants")
     public List<Restaurant> getAll() {
+        log.info("Get  all restaurants");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @GetMapping(value = "/with_dishes")
     @Operation(summary = "Get all restaurants with a menu for today ")
     public List<Restaurant> getAllWithDishesToday() {
+        log.info("Get  all restaurants with dishes today");
         return repository.getAllWithDishesToday();
     }
 

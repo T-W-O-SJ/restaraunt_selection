@@ -33,13 +33,14 @@ public class AdminVoteController {
     @GetMapping("/")
     @Operation(summary = "History of votes")
     public List<VoteTo> getAll() {
+        log.info("Get history of all votes");
         return VoteUtil.getTos(voteRepository.getAllHistory());
     }
 
     @GetMapping("/filter")
     @Operation(summary = "Filter history of all votes")
-    public List<VoteTo> getAllByLocalDate(
-            @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
+    public List<VoteTo> getAllByLocalDate(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
+        log.info("Get votes for {}",localDate);
         return VoteUtil.getTos(voteRepository.getAllByLocalDate(localDate));
     }
 

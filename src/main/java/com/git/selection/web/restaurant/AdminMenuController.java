@@ -41,6 +41,7 @@ public class AdminMenuController {
     @Transactional
     @Operation(summary = "Update a dish")
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId, @PathVariable int id) {
+        log.info("update{} for restaurant{}", id, restaurantId);
         repository.checkBelong(id, restaurantId);
         Assert.notNull(dishTo, "must not be null");
         Dish dish = repository.get(id, restaurantId).orElseThrow(() -> new NotFoundException("no dish for update"));
@@ -50,6 +51,7 @@ public class AdminMenuController {
     @PostMapping(value = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a dish")
     public Dish create(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId) {
+        log.info("create {} for restaurant{}", dishTo, restaurantId);
         Dish dish = DishUtil.createNewFromTo(dishTo);
         dish.setRestaurant(restaurantRepository.getById(restaurantId));
         Assert.notNull(dish, "must not be null");

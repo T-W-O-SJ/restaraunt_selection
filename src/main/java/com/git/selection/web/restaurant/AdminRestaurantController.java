@@ -48,6 +48,7 @@ public class AdminRestaurantController {
     @CacheEvict(value = "restaurant", allEntries = true)
     @Operation(summary = "Update a restaurant ")
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
+        log.info("Update {} for restaurant {}", restaurantTo,id);
         Assert.notNull(restaurantTo, "must not be null");
         Restaurant updateRest = repository.get(id).orElseThrow(() -> new NotFoundException("No restaurant for update"));
         repository.save(RestaurantUtil.updateFromTo(updateRest, restaurantTo));
@@ -72,6 +73,7 @@ public class AdminRestaurantController {
     @GetMapping("/{id}/with_votes")
     @Operation(summary = "Get a restaurant with votes")
     public ResponseEntity<Restaurant> getWithVotes(@PathVariable int id) {
+        log.info("Get with votes for restaurant{}", id);
         return ResponseEntity.of(repository.getWithVotes(id));
     }
 }
