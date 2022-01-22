@@ -3,12 +3,14 @@ package com.github.twosj.selection.util.validation;
 
 import com.github.twosj.selection.HasId;
 import com.github.twosj.selection.error.IllegalRequestDataException;
+import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.error.NotValidTimeException;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
 import static com.github.twosj.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
 
@@ -27,7 +29,7 @@ public class ValidationUtil {
         if (bean.isNew()) {
             bean.setId(id);
         } else if (bean.id() != id) {
-            throw new IllegalArgumentException(bean + " must be with id=" + id);
+            throw new IllegalRequestDataException(bean + " must be with id=" + id);
         }
     }
 
@@ -48,6 +50,8 @@ public class ValidationUtil {
         if (count == 0) {
             throw new IllegalRequestDataException("Entity with id=" + id + " not found");
         }
-
+    }
+    public static Supplier<NotFoundException> getNot_found(String message) {
+        return () -> new NotFoundException(message);
     }
 }

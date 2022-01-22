@@ -23,6 +23,9 @@ import javax.validation.Valid;
 
 import java.net.URI;
 
+import static com.github.twosj.selection.util.validation.ValidationUtil.assureIdConsistent;
+import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+
 @RestController
 @CacheConfig(cacheNames = "restaurant")
 @Slf4j
@@ -44,23 +47,22 @@ public class AdminRestaurantController {
     @Transactional
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = "restaurant", allEntries = true)
+    @CacheEvict( allEntries = true)
     @Operation(summary = "Update a restaurant ")
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("Update {} for restaurant {}", restaurantTo,id);
-        Assert.notNull(restaurantTo, "must not be null");
-        Restaurant updateRest = repository.get(id).orElseThrow(() -> new NotFoundException("No restaurant for update"));
+        assureIdConsistent(restaurantTo, id);
+        Restaurant updateRest = repository.findById(id).orElseThrow(getNot_found("No restaurant found for update"));
         repository.save(RestaurantUtil.updateFromTo(updateRest, restaurantTo));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CacheEvict(value = "restaurant", allEntries = true)
+    @CacheEvict( allEntries = true)
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a restaurant")
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
         log.info("create {}", restaurantTo);
         ValidationUtil.checkNew(restaurantTo);
-        Assert.notNull(restaurantTo, "must not be null");
         Restaurant restaurant = RestaurantUtil.createNewFromTo(restaurantTo);
         Restaurant created = repository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()

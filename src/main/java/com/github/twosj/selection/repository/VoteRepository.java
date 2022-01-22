@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface VoteRepository extends BaseRepository<Vote> {
 
     @Query("SELECT v FROM Vote v  WHERE v.user.id =:userId and v.localDate =:localDate")

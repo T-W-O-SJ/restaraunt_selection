@@ -6,9 +6,11 @@ import com.github.twosj.selection.repository.DishRepository;
 import com.github.twosj.selection.repository.RestaurantRepository;
 import com.github.twosj.selection.to.DishTo;
 import com.github.twosj.selection.util.DishUtil;
+import com.github.twosj.selection.util.validation.ValidationUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +23,9 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.github.twosj.selection.util.validation.ValidationUtil.assureIdConsistent;
+import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
@@ -31,8 +36,7 @@ public class AdminMenuController {
     DishRepository repository;
     RestaurantRepository restaurantRepository;
 
-
-    @GetMapping(value = "/")
+    @GetMapping
     @Operation(summary = "Get a menu of restaurant for selected day  by restaurant id and date")
     public List<Dish> getAllByRestaurantAndDate(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate, @PathVariable int restaurantId) {
         log.info("Get all dishes for restaurant{} for {} date ",restaurantId,localDate);
@@ -42,6 +46,7 @@ public class AdminMenuController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a dish by its id")
+    @CacheEvict(value = "restaurants",allEntries = true)
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("delete {} for restaurant{}", id, restaurantId);
         repository.checkBelong(id, restaurantId);
@@ -52,27 +57,32 @@ public class AdminMenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     @Operation(summary = "Update a dish")
+    @CacheEvict(value = "restaurants",allEntries = true)
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId, @PathVariable int id) {
         log.info("update{} for restaurant{}", id, restaurantId);
+        assureIdConsistent(dishTo, id);
         repository.checkBelong(id, restaurantId);
-        Assert.notNull(dishTo, "must not be null");
-        Dish dish = repository.get(id, restaurantId).orElseThrow(() -> new NotFoundException("no dish for update"));
+        Dish dish = repository.get(id, restaurantId).orElseThrow(getNot_found("No dish for update"));
         repository.save(DishUtil.updateFromTo(dish, dishTo));
     }
 
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a dish")
+    @CacheEvict(value = "restaurants",allEntries = true)
     public Dish create(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId) {
         log.info("create {} for restaurant{}", dishTo, restaurantId);
+        ValidationUtil.checkNew(dishTo);
         Dish dish = DishUtil.createNewFromTo(dishTo);
         dish.setRestaurant(restaurantRepository.getById(restaurantId));
-        Assert.notNull(dish, "must not be null");
         return repository.save(dish);
     }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get a dish by it's id and restaurant id ")
     public Dish get(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("Get dish{} for restaurant{}", id,restaurantId);
-        return repository.get(id, restaurantId).orElseThrow(() -> new NotFoundException("not found"));
+        return repository.get(id, restaurantId).orElseThrow(getNot_found("Dish not found"));
     }
+
+
 }

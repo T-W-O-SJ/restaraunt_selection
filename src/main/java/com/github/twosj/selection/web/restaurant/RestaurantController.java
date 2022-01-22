@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+
 @RestController
 @CacheConfig(cacheNames = "restaurant")
 @Slf4j
@@ -34,7 +36,7 @@ public class RestaurantController {
     @Operation(summary = "Get restaurant")
     public RestaurantTo get(@PathVariable int id) {
         log.info("Get restaurant{} ",id);
-        return RestaurantUtil.createTo(repository.get(id).orElseThrow(()->new NotFoundException("not found")));
+        return RestaurantUtil.createTo(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
     }
 
     @GetMapping("/{id}/with-dishes-today")
@@ -45,13 +47,14 @@ public class RestaurantController {
     }
 
     @Cacheable
-    @GetMapping()
+    @GetMapping
     @Operation(summary = "Get all restaurants")
     public List<RestaurantTo> getAll() {
         log.info("Get all restaurants");
         return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name")));
     }
 
+    @Cacheable
     @GetMapping(value = "/with-dishes-today")
     @Operation(summary = "Get all restaurants with a menu for today ")
     public List<RestaurantTo> getAllWithDishesToday() {
