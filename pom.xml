@@ -10,11 +10,11 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.git</groupId>
+  <groupId>com.github.twosj</groupId>
   <artifactId>selection</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Restaurant Selection Api</name>
-  <description>Migration project to Spring Boot</description>
+  <description>Voting application</description>
 
   <properties>
     <java.version>17</java.version>

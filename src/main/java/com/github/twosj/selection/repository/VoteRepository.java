@@ -25,10 +25,8 @@ public interface VoteRepository extends BaseRepository<Vote> {
     @Query("SELECT v FROM Vote v WHERE v.localDate=:localDate")
     List<Vote> getAllByLocalDate(LocalDate localDate);
 
-    @Query("SELECT v from Vote v WHERE v.user.id=:userId AND v.localDate >= :startDate AND v.localDate < :endDate ORDER BY v.localDate DESC")
+    @Query("SELECT v from Vote v WHERE v.user.id=:userId AND v.localDate >= :startDate AND v.localDate <= :endDate ORDER BY v.localDate DESC")
     List<Vote> getBetweenDates(LocalDate startDate, LocalDate endDate, int userId);
-
-
 }
 
 

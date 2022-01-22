@@ -18,8 +18,14 @@ public class RestaurantTo extends NamedTo implements HasIdAndEmail {
     @NoHtml
     String email;
 
+    @NotBlank
+    @Size(min = 2, max = 120)
+    @NoHtml
     String description;
 
+    @NotBlank
+    @Size(max = 100)
+    @NoHtml
     String phone;
 
     public RestaurantTo(Integer id, String name, String email, String description, String phone) {

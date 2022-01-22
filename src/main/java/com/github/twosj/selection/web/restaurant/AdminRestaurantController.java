@@ -38,7 +38,7 @@ public class AdminRestaurantController {
     @CacheEvict(allEntries = true)
     @Operation(summary = "Delete a restaurant by its id")
     public void delete(@PathVariable int id) {
-        repository.delete(id);
+        repository.deleteExisted(id);
     }
 
     @Transactional
@@ -67,12 +67,5 @@ public class AdminRestaurantController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @GetMapping("/{id}/with_votes")
-    @Operation(summary = "Get a restaurant with votes")
-    public ResponseEntity<Restaurant> getWithVotes(@PathVariable int id) {
-        log.info("Get with votes for restaurant{}", id);
-        return ResponseEntity.of(repository.getWithVotes(id));
     }
 }

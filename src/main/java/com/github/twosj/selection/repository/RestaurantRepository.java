@@ -21,7 +21,4 @@ public interface RestaurantRepository extends BaseRepository<Restaurant> {
     @Query("SELECT r FROM Restaurant r JOIN  r.dishes d WHERE d.localDate= current_date")
     List<Restaurant> getAllWithDishesToday();
 
-    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r  WHERE r.id=?1")
-    Optional<Restaurant> getWithVotes(int id);
 }

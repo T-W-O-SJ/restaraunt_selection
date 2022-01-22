@@ -11,9 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ProfileRestaurantControllerTest extends AbstractControllerTest {
+class RestaurantControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = ProfileRestaurantController.REST_URL + '/';
+    private static final String REST_URL = RestaurantController.REST_URL + '/';
 
     @Test
     @WithUserDetails(value = USER_MAIL)

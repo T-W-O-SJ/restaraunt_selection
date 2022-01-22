@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,25 +24,10 @@ public class AdminVoteController {
 
     VoteRepository voteRepository;
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Get all votes for restaurant by it's id ")
-    public List<VoteTo> getAllByRestaurant(
-            @PathVariable int id) {
-        return VoteUtil.getTos(voteRepository.getAllForRestaurant(id));
-    }
-
-    @GetMapping("/")
-    @Operation(summary = "History of votes")
-    public List<VoteTo> getAll() {
-        log.info("Get history of all votes");
-        return VoteUtil.getTos(voteRepository.getAllHistory());
-    }
-
     @GetMapping("/filter")
     @Operation(summary = "Filter history of all votes")
-    public List<VoteTo> getAllByLocalDate(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
+    public List<VoteTo> getAllByLocalDate(@RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate) {
         log.info("Get votes for {}",localDate);
         return VoteUtil.getTos(voteRepository.getAllByLocalDate(localDate));
     }
-
 }

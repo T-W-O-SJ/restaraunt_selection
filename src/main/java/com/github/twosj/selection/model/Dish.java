@@ -11,11 +11,11 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dish")
+@Table(name = "dish",uniqueConstraints = { @UniqueConstraint(columnNames = { "description","local_date"}, name = "dish_uniq_name_date_idx") })
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(callSuper = true, exclude = {"restaurant"})
+@ToString(callSuper = true)
 public class Dish extends BaseEntity {
 
     @Column(name = "description", nullable = false)
@@ -35,6 +35,7 @@ public class Dish extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonBackReference("restaurantToDishes")
+    @ToString.Exclude
     private Restaurant restaurant;
 
     public Dish(Integer id, LocalDate date, String description, int price) {

@@ -1,5 +1,6 @@
 package com.github.twosj.selection.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.twosj.selection.HasIdAndEmail;
 import com.github.twosj.selection.util.validation.NoHtml;
@@ -18,11 +19,9 @@ import java.util.List;
 @Table(name = "restaurant")
 @Getter
 @Setter
-@ToString(callSuper = true, exclude = {"dishes", "votes"})
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends NamedEntity implements HasIdAndEmail {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -40,18 +39,21 @@ public class Restaurant extends NamedEntity implements HasIdAndEmail {
     @Column(name = "phone", nullable = false, unique = true)
     @NotBlank
     @Size(max = 100)
+    @NoHtml
     private String phone;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("localDate desc ")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference("restaurantToVotes")
+    @JsonIgnore
+    @ToString.Exclude
     private List<Vote> votes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OrderBy("localDate desc ")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference("restaurantToDishes")
+    @ToString.Exclude
     private List<Dish> dishes;
 
     public Restaurant(Restaurant r) {

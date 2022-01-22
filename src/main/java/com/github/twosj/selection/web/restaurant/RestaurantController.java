@@ -1,7 +1,10 @@
 package com.github.twosj.selection.web.restaurant;
 
+import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.model.Restaurant;
 import com.github.twosj.selection.repository.RestaurantRepository;
+import com.github.twosj.selection.to.RestaurantTo;
+import com.github.twosj.selection.util.RestaurantUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,21 +23,21 @@ import java.util.List;
 @RestController
 @CacheConfig(cacheNames = "restaurant")
 @Slf4j
-@RequestMapping(value = ProfileRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
-public class ProfileRestaurantController {
-    static final String REST_URL = "/api/profile/restaurants";
+public class RestaurantController {
+    static final String REST_URL = "/api/restaurants";
 
     RestaurantRepository repository;
 
     @GetMapping("/{id}")
     @Operation(summary = "Get restaurant")
-    public ResponseEntity<Restaurant> get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         log.info("Get restaurant{} ",id);
-        return ResponseEntity.of(repository.get(id));
+        return RestaurantUtil.createTo(repository.get(id).orElseThrow(()->new NotFoundException("not found")));
     }
 
-    @GetMapping("/{id}/with_dishes")
+    @GetMapping("/{id}/with-dishes-today")
     @Operation(summary = "Get restaurant with its menu for today ")
     public ResponseEntity<Restaurant> getWithDishes(@PathVariable int id) {
         log.info("Get restaurant{} with dishes today",id);
@@ -44,16 +47,16 @@ public class ProfileRestaurantController {
     @Cacheable
     @GetMapping()
     @Operation(summary = "Get all restaurants")
-    public List<Restaurant> getAll() {
-        log.info("Get  all restaurants");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+    public List<RestaurantTo> getAll() {
+        log.info("Get all restaurants");
+        return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name")));
     }
 
-    @GetMapping(value = "/with_dishes")
+    @GetMapping(value = "/with-dishes-today")
     @Operation(summary = "Get all restaurants with a menu for today ")
-    public List<Restaurant> getAllWithDishesToday() {
+    public List<RestaurantTo> getAllWithDishesToday() {
         log.info("Get  all restaurants with dishes today");
-        return repository.getAllWithDishesToday();
+        return RestaurantUtil.getTos(repository.getAllWithDishesToday());
     }
 
 }
