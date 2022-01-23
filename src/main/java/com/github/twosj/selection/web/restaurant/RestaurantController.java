@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,15 +33,14 @@ public class RestaurantController {
     @GetMapping("/{id}")
     @Operation(summary = "Get restaurant")
     public RestaurantTo get(@PathVariable int id) {
-        log.info("Get restaurant{} ",id);
+        log.info("Get restaurant{} ", id);
         return RestaurantUtil.createTo(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
     }
 
     @GetMapping("/{id}/with-dishes-today")
     @Operation(summary = "Get restaurant with its menu for today ")
-    public ResponseEntity<Restaurant> getWithDishesToday(@PathVariable int id) {
-        log.info("Get restaurant{} with dishes today",id);
-        return ResponseEntity.of(repository.getWithDishesToday(id));
+    public Restaurant getWithDishesToday(@PathVariable int id) {
+        return repository.getWithDishesToday(id).orElse(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
     }
 
     @Cacheable
@@ -50,7 +48,7 @@ public class RestaurantController {
     @Operation(summary = "Get all restaurants")
     public List<RestaurantTo> getAll() {
         log.info("Get all restaurants");
-        return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name","id")));
+        return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name", "id")));
     }
 
     @Cacheable
@@ -60,5 +58,4 @@ public class RestaurantController {
         log.info("Get  all restaurants with dishes today");
         return repository.getAllWithDishesToday();
     }
-
 }

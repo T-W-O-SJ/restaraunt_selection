@@ -1,7 +1,6 @@
 package com.github.twosj.selection.repository;
 
 import com.github.twosj.selection.model.Vote;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 

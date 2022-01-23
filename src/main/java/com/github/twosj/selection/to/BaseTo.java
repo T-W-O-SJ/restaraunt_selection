@@ -1,6 +1,5 @@
 package com.github.twosj.selection.to;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.twosj.selection.HasId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;

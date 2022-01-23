@@ -22,8 +22,8 @@ import org.springframework.context.annotation.Configuration;
                 version = "1.0",
                 description = """
                         <b>Restaurant Selection Api</b><br>
-                        <a href='https://github.com/T-W-O-SJ/restaraunt_selection'>Spring Boot  приложение для дипломного проекта</a>
-                        <p><b>Тестовые креденшелы:</b><br>
+                        <a href='https://github.com/T-W-O-SJ/restaraunt_selection'>Spring Boot  application for graduation project</a>
+                        <p><b>Тest credentials:</b><br>
                         - user@yandex.ru / password<br>
                         - admin@gmail.com / admin</p>
                         """

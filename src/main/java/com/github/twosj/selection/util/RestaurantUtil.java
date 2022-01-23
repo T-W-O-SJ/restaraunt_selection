@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class RestaurantUtil {
+
     public static List<RestaurantTo> getTos(Collection<Restaurant> restaurant) {
         return restaurant.stream()
                 .map(RestaurantUtil::createTo)
@@ -32,5 +33,4 @@ public class RestaurantUtil {
         restaurant.setPhone(restaurantTo.getPhone());
         return restaurant;
     }
-
 }

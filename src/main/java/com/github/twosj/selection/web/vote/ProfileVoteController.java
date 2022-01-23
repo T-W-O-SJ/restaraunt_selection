@@ -1,6 +1,5 @@
 package com.github.twosj.selection.web.vote;
 
-import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.model.Vote;
 import com.github.twosj.selection.repository.RestaurantRepository;
 import com.github.twosj.selection.repository.UserRepository;
@@ -34,6 +33,7 @@ import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_f
 @AllArgsConstructor
 public class ProfileVoteController {
     static final String REST_URL = "/api/profile/votes/";
+
     VoteRepository voteRepository;
     UserRepository userRepository;
     RestaurantRepository restaurantRepository;

@@ -39,7 +39,7 @@ The application supports OpenAPI 3.0 Swagger UI.
 After starting APP you need to go to url :
 http://localhost:8080/swagger-ui/index.html#/
 
-###Test credentials
+### Test credentials
 
 * <b>User - </b> user@yandex.ru / password
 * <b>Admin - </b>  admin@gmail.com / admin

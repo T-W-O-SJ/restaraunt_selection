@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.github.twosj.selection.web.vote.VoteTestData.votesForPushkin;
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class RestaurantTestData {
 
@@ -47,7 +46,6 @@ public class RestaurantTestData {
 
     public static final List<RestaurantTo> restaurants = RestaurantUtil.getTos(List.of(restaurant2, restaurant3, restaurant1, restaurant4));
     public static final List<Restaurant> restaurantsToday = List.of(restaurant2Today, restaurant3, restaurant1Today);
-    public static final List<Dish> dishes = List.of(dish11, dish12, dish13);
 
     static {
         restaurant1.setVotes(votesForPushkin);

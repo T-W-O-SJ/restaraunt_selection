@@ -14,7 +14,6 @@ import java.util.function.Supplier;
 
 import static com.github.twosj.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
 
-
 @UtilityClass
 public class ValidationUtil {
 
@@ -51,6 +50,7 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("Entity with id=" + id + " not found");
         }
     }
+
     public static Supplier<NotFoundException> getNot_found(String message) {
         return () -> new NotFoundException(message);
     }

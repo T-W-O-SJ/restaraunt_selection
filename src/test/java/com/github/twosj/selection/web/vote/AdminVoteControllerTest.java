@@ -1,14 +1,14 @@
 package com.github.twosj.selection.web.vote;
 
 import com.github.twosj.selection.web.AbstractControllerTest;
-import com.github.twosj.selection.web.restaurant.RestaurantTestData;
 import com.github.twosj.selection.web.user.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.github.twosj.selection.web.vote.VoteTestData.*;
+import static com.github.twosj.selection.web.vote.VoteTestData.VOTE_TO_MATCHER;
+import static com.github.twosj.selection.web.vote.VoteTestData.votesToByDate;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

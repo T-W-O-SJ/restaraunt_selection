@@ -29,9 +29,9 @@ import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_f
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class AdminRestaurantController {
-    RestaurantRepository repository;
-
     static final String REST_URL = "/api/admin/restaurants";
+
+    RestaurantRepository repository;
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

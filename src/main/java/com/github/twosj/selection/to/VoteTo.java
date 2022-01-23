@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class VoteTo extends BaseTo {
-
     @NotNull
     private final Integer restaurantId;
     @NotNull

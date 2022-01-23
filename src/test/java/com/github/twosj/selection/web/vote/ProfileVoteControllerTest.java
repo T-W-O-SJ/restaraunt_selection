@@ -2,17 +2,13 @@ package com.github.twosj.selection.web.vote;
 
 import com.github.twosj.selection.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIf;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.*;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.github.twosj.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
-import static com.github.twosj.selection.web.restaurant.RestaurantTestData.RESTAURANT1_ID;
-import static com.github.twosj.selection.web.restaurant.RestaurantTestData.RESTAURANT2_ID;
 import static com.github.twosj.selection.web.user.UserTestData.ADMIN_MAIL;
 import static com.github.twosj.selection.web.user.UserTestData.USER_MAIL;
 import static com.github.twosj.selection.web.vote.VoteTestData.*;
