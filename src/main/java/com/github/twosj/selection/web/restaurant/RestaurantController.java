@@ -1,6 +1,5 @@
 package com.github.twosj.selection.web.restaurant;
 
-import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.model.Restaurant;
 import com.github.twosj.selection.repository.RestaurantRepository;
 import com.github.twosj.selection.to.RestaurantTo;
@@ -41,9 +40,9 @@ public class RestaurantController {
 
     @GetMapping("/{id}/with-dishes-today")
     @Operation(summary = "Get restaurant with its menu for today ")
-    public ResponseEntity<Restaurant> getWithDishes(@PathVariable int id) {
+    public ResponseEntity<Restaurant> getWithDishesToday(@PathVariable int id) {
         log.info("Get restaurant{} with dishes today",id);
-        return ResponseEntity.of(repository.getWithDishes(id));
+        return ResponseEntity.of(repository.getWithDishesToday(id));
     }
 
     @Cacheable
@@ -51,15 +50,15 @@ public class RestaurantController {
     @Operation(summary = "Get all restaurants")
     public List<RestaurantTo> getAll() {
         log.info("Get all restaurants");
-        return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name")));
+        return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name","id")));
     }
 
     @Cacheable
     @GetMapping(value = "/with-dishes-today")
     @Operation(summary = "Get all restaurants with a menu for today ")
-    public List<RestaurantTo> getAllWithDishesToday() {
+    public List<Restaurant> getAllWithDishesToday() {
         log.info("Get  all restaurants with dishes today");
-        return RestaurantUtil.getTos(repository.getAllWithDishesToday());
+        return repository.getAllWithDishesToday();
     }
 
 }

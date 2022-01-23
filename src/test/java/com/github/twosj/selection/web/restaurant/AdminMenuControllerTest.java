@@ -4,7 +4,6 @@ import com.github.twosj.selection.model.Dish;
 import com.github.twosj.selection.repository.DishRepository;
 import com.github.twosj.selection.util.JsonUtil;
 import com.github.twosj.selection.web.AbstractControllerTest;
-import com.github.twosj.selection.web.user.UserTestData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,8 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.github.twosj.selection.web.restaurant.RestaurantTestData.*;
-import static com.github.twosj.selection.web.restaurant.RestaurantTestData.dish1;
-import static com.github.twosj.selection.web.user.UserTestData.USER_MAIL;
+import static com.github.twosj.selection.web.user.UserTestData.ADMIN_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,28 +20,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AdminMenuControllerTest extends AbstractControllerTest {
 
-    private static final String REST_URL = AdminMenuController.REST_URL + '/';
+    private static final String REST_URL = "/api/admin/restaurants/";
 
     @Autowired
     private DishRepository repository;
 
     @Test
-    @WithUserDetails(value = UserTestData.ADMIN_MAIL)
+    @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Dish updated = RestaurantTestData.getUpdatedDish();
-        perform(MockMvcRequestBuilders.put(REST_URL + RestaurantTestData.RESTAURANT1_ID + "/" + RestaurantTestData.DISH1_ID)
+        perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT1_ID + "/dishes/" + DISH1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
-        RestaurantTestData.DISH_MATCHER.assertMatch(repository.get(RestaurantTestData.RESTAURANT1_ID, RestaurantTestData.DISH1_ID).orElse(null), updated);
+        RestaurantTestData.DISH_MATCHER.assertMatch(repository.get(RESTAURANT1_ID, DISH1_ID).orElse(null), updated);
     }
 
     @Test
-    @WithUserDetails(value = UserTestData.ADMIN_MAIL)
+    @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
         Dish newDish = RestaurantTestData.getNewDish();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + RestaurantTestData.RESTAURANT1_ID)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + RESTAURANT1_ID + "/dishes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newDish)));
 
@@ -55,21 +53,32 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = UserTestData.ADMIN_MAIL)
+    @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + RestaurantTestData.RESTAURANT1_ID + "/" + RestaurantTestData.DISH1_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT1_ID + "/dishes/" + DISH1_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(repository.get(RestaurantTestData.RESTAURANT1_ID, RestaurantTestData.DISH1_ID).isPresent());
+        assertFalse(repository.get(RestaurantTestData.RESTAURANT1_ID, DISH1_ID).isPresent());
     }
-    
+
     @Test
-    @WithUserDetails(value = USER_MAIL)
+    @WithUserDetails(value = ADMIN_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID + "/" + DISH1_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID + "/dishes/" + DISH1_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(DISH_MATCHER.contentJson(dish1));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAllByRestaurantAndDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT2_ID + "/dishes/")
+                .param("localDate", "2020-01-31"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(DISH_MATCHER.contentJson(dish4,dish5));
     }
 }

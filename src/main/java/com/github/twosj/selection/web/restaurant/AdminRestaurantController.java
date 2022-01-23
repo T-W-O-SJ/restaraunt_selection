@@ -1,6 +1,5 @@
 package com.github.twosj.selection.web.restaurant;
 
-import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.model.Restaurant;
 import com.github.twosj.selection.repository.RestaurantRepository;
 import com.github.twosj.selection.to.RestaurantTo;
@@ -15,12 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-
 import java.net.URI;
 
 import static com.github.twosj.selection.util.validation.ValidationUtil.assureIdConsistent;
@@ -47,17 +44,17 @@ public class AdminRestaurantController {
     @Transactional
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict( allEntries = true)
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Update a restaurant ")
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
-        log.info("Update {} for restaurant {}", restaurantTo,id);
+        log.info("Update {} for restaurant {}", restaurantTo, id);
         assureIdConsistent(restaurantTo, id);
         Restaurant updateRest = repository.findById(id).orElseThrow(getNot_found("No restaurant found for update"));
         repository.save(RestaurantUtil.updateFromTo(updateRest, restaurantTo));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @CacheEvict( allEntries = true)
+    @CacheEvict(allEntries = true)
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a restaurant")
     public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {

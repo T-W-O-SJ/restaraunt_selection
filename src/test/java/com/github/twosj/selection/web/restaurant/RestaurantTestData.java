@@ -3,6 +3,7 @@ package com.github.twosj.selection.web.restaurant;
 import com.github.twosj.selection.model.Dish;
 import com.github.twosj.selection.model.Restaurant;
 import com.github.twosj.selection.to.RestaurantTo;
+import com.github.twosj.selection.util.RestaurantUtil;
 import com.github.twosj.selection.web.MatcherFactory;
 
 import java.time.LocalDate;
@@ -14,25 +15,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RestaurantTestData {
 
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "votes", "dishes");
+    public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class);
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER_WITH_DISHES = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "votes", "dishes.restaurant");
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Dish.class, "restaurant");
 
-    public static MatcherFactory.Matcher<Restaurant> RESTAURANT_WITH_VOTES_MATCHER =
-            MatcherFactory.usingAssertions(Restaurant.class,
-                    //     No need use ignoringAllOverriddenEquals, see https://assertj.github.io/doc/#breaking-changes
-                    (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("dishes", "votes.restaurant", "votes.user").isEqualTo(e),
-                    (a, e) -> {
-                        throw new UnsupportedOperationException();
-                    });
-
-
     public static final int RESTAURANT1_ID = 1;
+    public static final int RESTAURANT2_ID = 2;
     public static final int RESTAURANT3_ID = 3;
     public static final int DISH1_ID = 1;
 
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "Pushkin", "pushkin@yandex.ru", "элитный ресторан", "8917111222");
-    public static final Restaurant restaurant2 = new Restaurant(RESTAURANT1_ID + 1, "Baikal", "baikal@yandex.ru", "ресторан с хорошим видом", "8917111223");
+    public static final Restaurant restaurant2 = new Restaurant(RESTAURANT2_ID, "Baikal", "baikal@yandex.ru", "ресторан с хорошим видом", "8917111223");
     public static final Restaurant restaurant3 = new Restaurant(RESTAURANT3_ID, "DodoPizza", "dodo@gmail.com", "ресторан быстрого питания", "8917111241");
     public static final Restaurant restaurant4 = new Restaurant(RESTAURANT1_ID + 3, "VeganOnly", "vegi@yandex.ru", "ресторан для веганов", "8914444423");
     public static final Restaurant restaurant1Today = new Restaurant(RESTAURANT1_ID, "Pushkin", "pushkin@yandex.ru", "элитный ресторан", "8917111222");
@@ -52,8 +45,8 @@ public class RestaurantTestData {
     public static final Dish dish12 = new Dish(DISH1_ID + 11, LocalDate.now(), "Пицца Милано", 300);
     public static final Dish dish13 = new Dish(DISH1_ID + 12, LocalDate.now(), "Пицца 3 сыра", 400);
 
-    public static final List<Restaurant> restaurants = List.of(restaurant2, restaurant3, restaurant1, restaurant4);
-    public static final List<Restaurant> restaurantsToday = List.of(restaurant1Today, restaurant2Today, restaurant3);
+    public static final List<RestaurantTo> restaurants = RestaurantUtil.getTos(List.of(restaurant2, restaurant3, restaurant1, restaurant4));
+    public static final List<Restaurant> restaurantsToday = List.of(restaurant2Today, restaurant3, restaurant1Today);
     public static final List<Dish> dishes = List.of(dish11, dish12, dish13);
 
     static {

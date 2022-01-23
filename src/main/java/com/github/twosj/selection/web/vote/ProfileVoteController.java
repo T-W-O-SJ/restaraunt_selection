@@ -21,6 +21,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,19 +29,19 @@ import java.util.List;
 import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileVoteController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
 public class ProfileVoteController {
-    static final String REST_URL = "/api/profile/restaurants/{restaurantId}/votes";
-    static final String HISTORY_URL = "/api/profile/votes";
+    static final String REST_URL = "/api/profile/votes/";
     VoteRepository voteRepository;
     UserRepository userRepository;
     RestaurantRepository restaurantRepository;
 
-    @PostMapping(value = REST_URL)
+    @PostMapping
     @Operation(summary = "Vote for restaurant by restaurant id")
-    public ResponseEntity<VoteTo> create(@AuthenticationPrincipal AuthUser authUser, @PathVariable("restaurantId") int id) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<VoteTo> create(@AuthenticationPrincipal AuthUser authUser, @RequestParam @NotNull int id) {
         int userId = authUser.id();
         log.info("{} vote for user {}", LocalDateTime.now(), userId);
         Vote todayVote = voteRepository.getByDate(userId, LocalDate.now()).orElse(null);
@@ -54,10 +55,10 @@ public class ProfileVoteController {
         return new ResponseEntity<>(VoteUtil.createTo(voteRepository.save(createVote)), HttpStatus.CREATED);
     }
 
-    @PutMapping(value = REST_URL)
+    @PutMapping
     @Operation(summary = "Vote for restaurant by restaurant id")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<VoteTo>update(@AuthenticationPrincipal AuthUser authUser, @PathVariable("restaurantId") int id) {
+    public ResponseEntity<VoteTo>update(@AuthenticationPrincipal AuthUser authUser, @RequestParam @NotNull int id) {
         int userId = authUser.id();
         log.info("{} update vote for user {}", LocalDateTime.now(), userId);
         Vote currentVote = voteRepository.getByDate(userId, LocalDate.now()).orElseThrow(getNot_found("No vote for update"));
@@ -70,7 +71,7 @@ public class ProfileVoteController {
         return new ResponseEntity<>( VoteUtil.createTo(voteRepository.save(updateVote)),HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(HISTORY_URL)
+    @GetMapping("/filter")
     @Operation(summary = "Filter history of user votes")
     public List<VoteTo> getBetween(
             @AuthenticationPrincipal AuthUser authUser,

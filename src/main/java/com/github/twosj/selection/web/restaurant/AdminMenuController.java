@@ -1,6 +1,5 @@
 package com.github.twosj.selection.web.restaurant;
 
-import com.github.twosj.selection.error.NotFoundException;
 import com.github.twosj.selection.model.Dish;
 import com.github.twosj.selection.repository.DishRepository;
 import com.github.twosj.selection.repository.RestaurantRepository;
@@ -16,10 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,15 +37,15 @@ public class AdminMenuController {
 
     @GetMapping
     @Operation(summary = "Get a menu of restaurant for selected day  by restaurant id and date")
-    public List<Dish> getAllByRestaurantAndDate(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate, @PathVariable int restaurantId) {
-        log.info("Get all dishes for restaurant{} for {} date ",restaurantId,localDate);
-        return repository.getAllByRestaurantAndDate(localDate,restaurantId);
+    public List<Dish> getAllByRestaurantAndDate(@RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate localDate, @PathVariable int restaurantId) {
+        log.info("Get all dishes for restaurant{} for {} date ", restaurantId, localDate);
+        return repository.getAllByRestaurantAndDate(localDate, restaurantId);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a dish by its id")
-    @CacheEvict(value = "restaurants",allEntries = true)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("delete {} for restaurant{}", id, restaurantId);
         repository.checkBelong(id, restaurantId);
@@ -57,7 +56,7 @@ public class AdminMenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     @Operation(summary = "Update a dish")
-    @CacheEvict(value = "restaurants",allEntries = true)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId, @PathVariable int id) {
         log.info("update{} for restaurant{}", id, restaurantId);
         assureIdConsistent(dishTo, id);
@@ -68,7 +67,8 @@ public class AdminMenuController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a dish")
-    @CacheEvict(value = "restaurants",allEntries = true)
+    @ResponseStatus(HttpStatus.CREATED)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Dish create(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId) {
         log.info("create {} for restaurant{}", dishTo, restaurantId);
         ValidationUtil.checkNew(dishTo);
@@ -80,7 +80,7 @@ public class AdminMenuController {
     @GetMapping("/{id}")
     @Operation(summary = "Get a dish by it's id and restaurant id ")
     public Dish get(@PathVariable int id, @PathVariable int restaurantId) {
-        log.info("Get dish{} for restaurant{}", id,restaurantId);
+        log.info("Get dish{} for restaurant{}", id, restaurantId);
         return repository.get(id, restaurantId).orElseThrow(getNot_found("Dish not found"));
     }
 

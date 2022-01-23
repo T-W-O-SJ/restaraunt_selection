@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.github.twosj.selection.web.restaurant.RestaurantTestData.*;
 import static com.github.twosj.selection.web.user.UserTestData.USER_MAIL;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -18,16 +19,16 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RestaurantTestData.RESTAURANT1_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.RESTAURANT_MATCHER.contentJson(RestaurantTestData.restaurant1));
+                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant1));
     }
 
     @Test
     void getUnauth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RestaurantTestData.RESTAURANT1_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -42,10 +43,10 @@ class RestaurantControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getWithDishes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RestaurantTestData.RESTAURANT1_ID + "/with_dishes"))
+        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID +"/with-dishes-today"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.RESTAURANT_MATCHER_WITH_DISHES.contentJson(RestaurantTestData.restaurant1Today));
+                .andExpect(RESTAURANT_MATCHER_WITH_DISHES.contentJson(restaurant1Today));
     }
 
     @Test
@@ -55,16 +56,16 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.RESTAURANT_MATCHER.contentJson(RestaurantTestData.restaurants));
+                .andExpect(RESTAURANT_TO_MATCHER.contentJson(restaurants));
     }
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getAllWithDishesToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL+ "with_dishes"))
+        perform(MockMvcRequestBuilders.get(REST_URL+"with-dishes-today"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.RESTAURANT_MATCHER_WITH_DISHES.contentJson(RestaurantTestData.restaurantsToday));
+                .andExpect(RESTAURANT_MATCHER_WITH_DISHES.contentJson(restaurantsToday));
     }
 }

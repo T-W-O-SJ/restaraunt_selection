@@ -1,8 +1,6 @@
 package com.github.twosj.selection.util;
 
-import com.github.twosj.selection.model.Dish;
 import com.github.twosj.selection.model.Restaurant;
-import com.github.twosj.selection.to.DishTo;
 import com.github.twosj.selection.to.RestaurantTo;
 import lombok.experimental.UtilityClass;
 
@@ -19,7 +17,7 @@ public class RestaurantUtil {
     }
 
     public static RestaurantTo createTo(Restaurant restaurant) {
-        return new RestaurantTo(restaurant.getId(), restaurant.getName(),restaurant.getEmail(), restaurant.getDescription(),restaurant.getPhone());
+        return new RestaurantTo(restaurant.getId(), restaurant.getName(), restaurant.getEmail(), restaurant.getDescription(), restaurant.getPhone());
     }
 
     public static Restaurant createNewFromTo(RestaurantTo restaurantTo) {

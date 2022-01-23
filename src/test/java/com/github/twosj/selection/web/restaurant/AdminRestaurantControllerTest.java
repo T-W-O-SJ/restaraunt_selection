@@ -13,11 +13,11 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.github.twosj.selection.util.RestaurantUtil.updateFromTo;
 import static com.github.twosj.selection.web.restaurant.RestaurantTestData.*;
 import static com.github.twosj.selection.web.user.UserTestData.ADMIN_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AdminRestaurantControllerTest extends AbstractControllerTest {
@@ -33,7 +33,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT1_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(restaurantRepository.get(RESTAURANT1_ID).isPresent());
+        assertFalse(restaurantRepository.findById(RESTAURANT1_ID).isPresent());
     }
 
     @Test
@@ -45,7 +45,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
-        RESTAURANT_MATCHER.assertMatch(restaurantRepository.getById(RESTAURANT1_ID), RestaurantUtil.updateFromTo(new Restaurant(restaurant1), updated));
+        RESTAURANT_MATCHER.assertMatch(restaurantRepository.getById(RESTAURANT1_ID), updateFromTo(new Restaurant(restaurant1), updated));
     }
 
     @Test
@@ -62,15 +62,6 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
         RESTAURANT_MATCHER.assertMatch(restaurantRepository.getById(newId), newRestaurant);
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
-    void getWithVotes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID + "/with_votes"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_WITH_VOTES_MATCHER.contentJson(restaurant1));
     }
 
 }
