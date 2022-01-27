@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.github.twosj.selection.util.validation.ValidationUtil.assureIdConsistent;
-import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+import static com.github.twosj.selection.util.validation.ValidationUtil.notFound;
 
 @RestController
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +44,7 @@ public class AdminMenuController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a dish by its id")
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = "restaurantsWithDishes", allEntries = true)
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("delete {} for restaurant{}", id, restaurantId);
         repository.checkBelong(id, restaurantId);
@@ -55,19 +55,19 @@ public class AdminMenuController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     @Operation(summary = "Update a dish")
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = "restaurantsWithDishes", allEntries = true)
     public void update(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId, @PathVariable int id) {
         log.info("update{} for restaurant{}", id, restaurantId);
         assureIdConsistent(dishTo, id);
         repository.checkBelong(id, restaurantId);
-        Dish dish = repository.get(id, restaurantId).orElseThrow(getNot_found("No dish for update"));
+        Dish dish = repository.get(id, restaurantId).orElseThrow(notFound("No dish for update"));
         repository.save(DishUtil.updateFromTo(dish, dishTo));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create a dish")
     @ResponseStatus(HttpStatus.CREATED)
-    @CacheEvict(value = "restaurants", allEntries = true)
+    @CacheEvict(value = "restaurantsWithDishes", allEntries = true)
     public Dish create(@Valid @RequestBody DishTo dishTo, @PathVariable int restaurantId) {
         log.info("create {} for restaurant{}", dishTo, restaurantId);
         ValidationUtil.checkNew(dishTo);
@@ -80,6 +80,6 @@ public class AdminMenuController {
     @Operation(summary = "Get a dish by it's id and restaurant id ")
     public Dish get(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("Get dish{} for restaurant{}", id, restaurantId);
-        return repository.get(id, restaurantId).orElseThrow(getNot_found("Dish not found"));
+        return repository.get(id, restaurantId).orElseThrow(notFound("Dish not found"));
     }
 }

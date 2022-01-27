@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
-import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+import static com.github.twosj.selection.util.validation.ValidationUtil.notFound;
 
 @RestController
 @RequestMapping(value = ProfileVoteController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +34,7 @@ import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_f
 @AllArgsConstructor
 public class ProfileVoteController {
     static final String REST_URL = "/api/profile/votes/";
+    public static final LocalTime FIX_CLOSE_TIME = LocalTime.of(11, 0);
 
     VoteRepository voteRepository;
     UserRepository userRepository;
@@ -61,7 +63,7 @@ public class ProfileVoteController {
     public ResponseEntity<VoteTo>update(@AuthenticationPrincipal AuthUser authUser, @RequestParam @NotNull int id) {
         int userId = authUser.id();
         log.info("{} update vote for user {}", LocalDateTime.now(), userId);
-        Vote currentVote = voteRepository.getByDate(userId, LocalDate.now()).orElseThrow(getNot_found("No vote for update"));
+        Vote currentVote = voteRepository.getByDate(userId, LocalDate.now()).orElseThrow(notFound("No vote for update"));
         Vote updateVote = new Vote();
         ValidationUtil.checkDateConsistent(LocalDateTime.now());
         updateVote.setId(currentVote.id());

@@ -21,10 +21,10 @@ import javax.validation.Valid;
 import java.net.URI;
 
 import static com.github.twosj.selection.util.validation.ValidationUtil.assureIdConsistent;
-import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+import static com.github.twosj.selection.util.validation.ValidationUtil.notFound;
 
 @RestController
-@CacheConfig(cacheNames = "restaurant")
+@CacheConfig(cacheNames = {"restaurants","restaurantsWithDishes"})
 @Slf4j
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -49,7 +49,7 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
         log.info("Update {} for restaurant {}", restaurantTo, id);
         assureIdConsistent(restaurantTo, id);
-        Restaurant updateRest = repository.findById(id).orElseThrow(getNot_found("No restaurant found for update"));
+        Restaurant updateRest = repository.findById(id).orElseThrow(notFound("No restaurant found for update"));
         repository.save(RestaurantUtil.updateFromTo(updateRest, restaurantTo));
     }
 

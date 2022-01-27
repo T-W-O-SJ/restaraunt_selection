@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
+import static com.github.twosj.selection.util.validation.ValidationUtil.notFound;
 
 @RestController
-@CacheConfig(cacheNames = "restaurant")
+@CacheConfig(cacheNames = {"restaurants","restaurantsWithDishes"})
 @Slf4j
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -34,16 +34,16 @@ public class RestaurantController {
     @Operation(summary = "Get restaurant")
     public RestaurantTo get(@PathVariable int id) {
         log.info("Get restaurant{} ", id);
-        return RestaurantUtil.createTo(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
+        return RestaurantUtil.createTo(repository.findById(id).orElseThrow(notFound("Restaurant not found")));
     }
 
     @GetMapping("/{id}/with-dishes-today")
     @Operation(summary = "Get restaurant with its menu for today ")
     public Restaurant getWithDishesToday(@PathVariable int id) {
-        return repository.getWithDishesToday(id).orElse(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
+        return repository.getWithDishesToday(id).orElse(repository.findById(id).orElseThrow(notFound("Restaurant not found")));
     }
 
-    @Cacheable
+    @Cacheable("restaurants")
     @GetMapping
     @Operation(summary = "Get all restaurants")
     public List<RestaurantTo> getAll() {
@@ -51,7 +51,7 @@ public class RestaurantController {
         return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name", "id")));
     }
 
-    @Cacheable
+    @Cacheable("restaurantsWithDishes")
     @GetMapping(value = "/with-dishes-today")
     @Operation(summary = "Get all restaurants with a menu for today ")
     public List<Restaurant> getAllWithDishesToday() {

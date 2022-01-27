@@ -1,4 +1,5 @@
-# Restaurant Selection Api
+# Restaurant Selection Api 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4b32d23b9244482e9043fb652ca9658b)](https://www.codacy.com/gh/T-W-O-SJ/restaraunt_selection/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=T-W-O-SJ/restaraunt_selection&amp;utm_campaign=Badge_Grade)
 
 RESTful web-service  REST API with the voting system on stack: Maven, Spring Boot, Spring Security, REST
 (Jackson), JDK17, Stream API, H2DB (in memory), JPA (Hibernate), JUnit5, Swagger (API).
