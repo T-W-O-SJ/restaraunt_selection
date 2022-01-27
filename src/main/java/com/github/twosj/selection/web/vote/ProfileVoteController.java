@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
@@ -33,6 +34,7 @@ import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_f
 @AllArgsConstructor
 public class ProfileVoteController {
     static final String REST_URL = "/api/profile/votes/";
+    public static final LocalTime FIX_CLOSE_TIME = LocalTime.of(11, 0);
 
     VoteRepository voteRepository;
     UserRepository userRepository;

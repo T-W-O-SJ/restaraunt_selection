@@ -12,7 +12,7 @@ import org.springframework.lang.NonNull;
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
-import static com.github.twosj.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
+import static com.github.twosj.selection.web.vote.ProfileVoteController.FIX_CLOSE_TIME;
 
 @UtilityClass
 public class ValidationUtil {

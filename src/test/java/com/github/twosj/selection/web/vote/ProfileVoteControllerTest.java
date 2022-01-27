@@ -8,9 +8,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.github.twosj.selection.util.DateTimeUtil.FIX_CLOSE_TIME;
 import static com.github.twosj.selection.web.user.UserTestData.ADMIN_MAIL;
 import static com.github.twosj.selection.web.user.UserTestData.USER_MAIL;
+import static com.github.twosj.selection.web.vote.ProfileVoteController.FIX_CLOSE_TIME;
 import static com.github.twosj.selection.web.vote.VoteTestData.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

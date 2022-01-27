@@ -21,7 +21,7 @@ import java.util.List;
 import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
 
 @RestController
-@CacheConfig(cacheNames = "restaurant")
+@CacheConfig(cacheNames = {"restaurants","restaurantsWithDishes"})
 @Slf4j
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -43,7 +43,7 @@ public class RestaurantController {
         return repository.getWithDishesToday(id).orElse(repository.findById(id).orElseThrow(getNot_found("Restaurant not found")));
     }
 
-    @Cacheable
+    @Cacheable("restaurants")
     @GetMapping
     @Operation(summary = "Get all restaurants")
     public List<RestaurantTo> getAll() {
@@ -51,7 +51,7 @@ public class RestaurantController {
         return RestaurantUtil.getTos(repository.findAll(Sort.by(Sort.Direction.ASC, "name", "id")));
     }
 
-    @Cacheable
+    @Cacheable("restaurantsWithDishes")
     @GetMapping(value = "/with-dishes-today")
     @Operation(summary = "Get all restaurants with a menu for today ")
     public List<Restaurant> getAllWithDishesToday() {

@@ -24,7 +24,7 @@ import static com.github.twosj.selection.util.validation.ValidationUtil.assureId
 import static com.github.twosj.selection.util.validation.ValidationUtil.getNot_found;
 
 @RestController
-@CacheConfig(cacheNames = "restaurant")
+@CacheConfig(cacheNames = {"restaurants","restaurantsWithDishes"})
 @Slf4j
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor

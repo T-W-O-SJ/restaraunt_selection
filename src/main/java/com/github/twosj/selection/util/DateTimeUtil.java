@@ -8,7 +8,6 @@ import java.time.LocalTime;
 @UtilityClass
 public class DateTimeUtil {
 
-    public static final LocalTime FIX_CLOSE_TIME = LocalTime.of(11, 0);
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
     private static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
 
